@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PUNKBISM — 이벤트 플랫폼</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --bg2: #111111;
+    --bg3: #1a1a1a;
+    --border: rgba(255,255,255,0.08);
+    --border2: rgba(255,255,255,0.15);
+    --text: #f0f0f0;
+    --text2: #888;
+    --text3: #555;
+    --accent: #e8ff00;
+    --accent2: #ff6b35;
+    --nft: #a78bfa;
+    --token: #34d399;
+    --wl: #fb923c;
+    --etc: #94a3b8;
+    --done: #4ade80;
+    --pending: #facc15;
+    --mono: 'Space Mono', monospace;
+    --sans: 'Noto Sans KR', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ─── NOISE TEXTURE ─── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+
+  /* ─── HEADER ─── */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10,10,10,0.92);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .logo-icon {
+    width: 32px;
+    height: 32px;
+    background: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--mono);
+    font-size: 14px;
+    font-weight: 700;
+    color: #000;
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  }
+
+  .logo-name {
+    font-family: var(--mono);
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+  }
+
+  .logo-sub {
+    font-size: 11px;
+    color: var(--text3);
+    letter-spacing: 0.05em;
+    margin-top: 1px;
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .sync-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    background: transparent;
+    border: 1px solid var(--border2);
+    border-radius: 6px;
+    color: var(--text2);
+    font-family: var(--mono);
+    font-size: 11px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .sync-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+  .sync-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--done);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  /* ─── MAIN LAYOUT ─── */
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ─── HERO STATS ─── */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 2rem;
+  }
+
+  .stat-box {
+    background: var(--bg2);
+    padding: 1.5rem;
+    transition: background 0.2s;
+  }
+
+  .stat-box:hover { background: var(--bg3); }
+
+  .stat-label {
+    font-size: 10px;
+    font-family: var(--mono);
+    color: var(--text3);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  .stat-num {
+    font-size: 36px;
+    font-family: var(--mono);
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .stat-hint {
+    font-size: 11px;
+    color: var(--text3);
+  }
+
+  /* ─── TOOLBAR ─── */
+  .toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .filter-group {
+    display: flex;
+    gap: 6px;
+  }
+
+  .filter-btn {
+    padding: 7px 16px;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text2);
+    font-family: var(--mono);
+    font-size: 11px;
+    cursor: pointer;
+    transition: all 0.15s;
+    letter-spacing: 0.05em;
+  }
+
+  .filter-btn:hover { border-color: var(--border2); color: var(--text); }
+
+  .filter-btn.active-all { border-color: var(--accent); color: var(--accent); background: rgba(232,255,0,0.05); }
+  .filter-btn.active-NFT { border-color: var(--nft); color: var(--nft); background: rgba(167,139,250,0.06); }
+  .filter-btn.active-토큰 { border-color: var(--token); color: var(--token); background: rgba(52,211,153,0.06); }
+  .filter-btn.active-화이트리스트 { border-color: var(--wl); color: var(--wl); background: rgba(251,146,60,0.06); }
+  .filter-btn.active-기타 { border-color: var(--etc); color: var(--etc); background: rgba(148,163,184,0.06); }
+
+  .search-box {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 7px 12px;
+    flex: 1;
+    max-width: 360px;
+  }
+
+  .search-box:focus-within { border-color: var(--border2); }
+
+  .search-icon { color: var(--text3); font-size: 13px; flex-shrink: 0; }
+
+  .search-box input {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 13px;
+    width: 100%;
+  }
+
+  .search-box input::placeholder { color: var(--text3); }
+
+  /* ─── TABLE ─── */
+  .table-wrap {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--bg2);
+  }
+
+  .table-head {
+    display: grid;
+    grid-template-columns: 2.2fr 1fr 1.6fr 1.6fr 1.1fr 0.9fr;
+    padding: 12px 20px;
+    background: var(--bg3);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .th {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text3);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .event-row {
+    display: grid;
+    grid-template-columns: 2.2fr 1fr 1.6fr 1.6fr 1.1fr 0.9fr;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+    align-items: center;
+    cursor: pointer;
+    transition: background 0.1s;
+    animation: fadeIn 0.3s ease both;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .event-row:last-child { border-bottom: none; }
+  .event-row:hover { background: var(--bg3); }
+  .event-row.selected { background: rgba(232,255,0,0.03); border-left: 2px solid var(--accent); padding-left: 18px; }
+
+  .event-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 3px;
+  }
+
+  .event-date {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text3);
+  }
+
+  .cat-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 10px;
+    border-radius: 3px;
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    border: 1px solid;
+  }
+
+  .cat-NFT { color: var(--nft); border-color: rgba(167,139,250,0.3); background: rgba(167,139,250,0.07); }
+  .cat-토큰 { color: var(--token); border-color: rgba(52,211,153,0.3); background: rgba(52,211,153,0.07); }
+  .cat-화이트리스트 { color: var(--wl); border-color: rgba(251,146,60,0.3); background: rgba(251,146,60,0.07); }
+  .cat-기타 { color: var(--etc); border-color: rgba(148,163,184,0.3); background: rgba(148,163,184,0.07); }
+
+  .winner-name {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 2px;
+  }
+
+  .winner-count {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text3);
+  }
+
+  .prize-main {
+    font-size: 12px;
+    color: var(--text);
+    margin-bottom: 2px;
+  }
+
+  .prize-sub {
+    font-size: 10px;
+    color: var(--text3);
+  }
+
+  .pay-date {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text2);
+  }
+
+  .status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    border-radius: 3px;
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 700;
+  }
+
+  .s-done { background: rgba(74,222,128,0.1); color: var(--done); border: 1px solid rgba(74,222,128,0.25); }
+  .s-pending { background: rgba(250,204,21,0.1); color: var(--pending); border: 1px solid rgba(250,204,21,0.25); }
+
+  .status-dot { width: 5px; height: 5px; border-radius: 50%; }
+  .dot-done { background: var(--done); }
+  .dot-pending { background: var(--pending); animation: pulse 1.5s infinite; }
+
+  /* ─── DETAIL PANEL ─── */
+  .detail-wrap {
+    margin-top: 1.5rem;
+    border: 1px solid var(--border2);
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--bg2);
+    display: none;
+  }
+
+  .detail-wrap.open { display: block; animation: slideDown 0.25s ease; }
+
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .detail-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    background: var(--bg3);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .detail-title {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+  }
+
+  .detail-event-name {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text);
+    margin-top: 3px;
+  }
+
+  .close-btn {
+    background: none;
+    border: 1px solid var(--border);
+    width: 28px;
+    height: 28px;
+    border-radius: 4px;
+    color: var(--text3);
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+  }
+
+  .close-btn:hover { border-color: var(--border2); color: var(--text); }
+
+  .detail-body { padding: 20px; }
+
+  .winners-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 10px;
+    margin-bottom: 1.25rem;
+  }
+
+  .winner-card {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px;
+    transition: border-color 0.15s;
+  }
+
+  .winner-card:hover { border-color: var(--border2); }
+
+  .wc-rank {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--text3);
+    letter-spacing: 0.1em;
+    margin-bottom: 6px;
+  }
+
+  .wc-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+
+  .wc-wallet {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text2);
+    margin-bottom: 10px;
+    word-break: break-all;
+  }
+
+  .detail-summary {
+    display: flex;
+    gap: 24px;
+    padding: 14px 0;
+    border-top: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+
+  .ds-item { font-size: 12px; color: var(--text3); }
+  .ds-item strong { color: var(--text); font-weight: 500; }
+
+  /* ─── EMPTY / LOADING ─── */
+  .state-box {
+    padding: 4rem 2rem;
+    text-align: center;
+    color: var(--text3);
+    font-family: var(--mono);
+    font-size: 12px;
+  }
+
+  .state-box .big { font-size: 32px; margin-bottom: 12px; }
+
+  /* ─── SETUP BANNER ─── */
+  .setup-banner {
+    background: linear-gradient(135deg, rgba(232,255,0,0.05), transparent);
+    border: 1px solid rgba(232,255,0,0.2);
+    border-radius: 10px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1.5rem;
+    display: none;
+  }
+
+  .setup-banner.show { display: block; }
+
+  .setup-title {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--accent);
+    margin-bottom: 8px;
+    letter-spacing: 0.08em;
+  }
+
+  .setup-text { font-size: 13px; color: var(--text2); line-height: 1.6; }
+  .setup-text code {
+    font-family: var(--mono);
+    font-size: 11px;
+    background: rgba(255,255,255,0.07);
+    padding: 2px 6px;
+    border-radius: 3px;
+    color: var(--accent);
+  }
+
+  .sheet-input-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  .sheet-input-row input {
+    flex: 1;
+    padding: 8px 12px;
+    background: var(--bg3);
+    border: 1px solid var(--border2);
+    border-radius: 6px;
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 11px;
+    outline: none;
+  }
+
+  .sheet-input-row input:focus { border-color: var(--accent); }
+
+  .connect-btn {
+    padding: 8px 16px;
+    background: var(--accent);
+    color: #000;
+    border: none;
+    border-radius: 6px;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: opacity 0.15s;
+    white-space: nowrap;
+  }
+
+  .connect-btn:hover { opacity: 0.85; }
+
+  /* ─── FOOTER ─── */
+  footer {
+    text-align: center;
+    padding: 2rem;
+    color: var(--text3);
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    border-top: 1px solid var(--border);
+    margin-top: 3rem;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-icon">P</div>
+    <div>
+      <div class="logo-name">PUNKBISM</div>
+      <div class="logo-sub">EVENT PLATFORM</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <span id="lastSyncLabel" style="font-family:var(--mono);font-size:10px;color:var(--text3);"></span>
+    <button class="sync-btn" onclick="loadData()">
+      <span class="sync-dot"></span>
+      SYNC
+    </button>
+    <button class="sync-btn" onclick="toggleSetup()" style="border-color:rgba(232,255,0,0.3);color:var(--accent);">
+      ⚙ SHEET 설정
+    </button>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- SETUP BANNER -->
+  <div class="setup-banner" id="setupBanner">
+    <div class="setup-title">// GOOGLE SHEET 연동 설정</div>
+    <div class="setup-text">
+      구글시트를 아래 형식으로 만든 후, <strong>파일 → 웹에 게시 → CSV</strong>로 발행하세요.<br>
+      시트 컬럼 순서: <code>이벤트명</code> <code>날짜</code> <code>카테고리</code> <code>당첨자닉네임</code> <code>지갑주소</code> <code>당첨상품</code> <code>상품설명</code> <code>지급날짜</code> <code>에어드랍</code><br>
+      카테고리는 <code>NFT</code> / <code>토큰</code> / <code>화이트리스트</code> / <code>기타</code> 중 하나로 입력하세요.<br>
+      에어드랍은 <code>완료</code> 또는 <code>대기</code>로 입력하세요.
+    </div>
+    <div class="sheet-input-row">
+      <input type="text" id="sheetUrlInput" placeholder="게시된 구글시트 CSV URL을 붙여넣으세요 (https://docs.google.com/spreadsheets/d/.../pub?output=csv)" />
+      <button class="connect-btn" onclick="saveSheetUrl()">연결</button>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-row">
+    <div class="stat-box">
+      <div class="stat-label">// TOTAL EVENTS</div>
+      <div class="stat-num" id="sTotalEvents" style="color:var(--accent);">—</div>
+      <div class="stat-hint">누적 이벤트 수</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">// AIRDROP DONE</div>
+      <div class="stat-num" id="sDone" style="color:var(--done);">—</div>
+      <div class="stat-hint">에어드랍 완료</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">// PENDING</div>
+      <div class="stat-num" id="sPending" style="color:var(--pending);">—</div>
+      <div class="stat-hint">지급 대기 중</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">// TOTAL WINNERS</div>
+      <div class="stat-num" id="sWinners" style="color:var(--text);">—</div>
+      <div class="stat-hint">전체 당첨자 수</div>
+    </div>
+  </div>
+
+  <!-- TOOLBAR -->
+  <div class="toolbar">
+    <div class="filter-group">
+      <button class="filter-btn active-all" id="btn-전체" onclick="setFilter('전체')">전체</button>
+      <button class="filter-btn" id="btn-NFT" onclick="setFilter('NFT')">NFT</button>
+      <button class="filter-btn" id="btn-토큰" onclick="setFilter('토큰')">토큰</button>
+      <button class="filter-btn" id="btn-화이트리스트" onclick="setFilter('화이트리스트')">화이트리스트</button>
+      <button class="filter-btn" id="btn-기타" onclick="setFilter('기타')">기타</button>
+    </div>
+    <div class="search-box">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="searchInput" placeholder="이벤트명 / 닉네임 / 지갑주소 검색..." oninput="renderTable()">
+    </div>
+  </div>
+
+  <!-- TABLE -->
+  <div class="table-wrap">
+    <div class="table-head">
+      <div class="th">이벤트명</div>
+      <div class="th">카테고리</div>
+      <div class="th">당첨자</div>
+      <div class="th">당첨 상품</div>
+      <div class="th">지급 날짜</div>
+      <div class="th">에어드랍</div>
+    </div>
+    <div id="eventList">
+      <div class="state-box">
+        <div class="big">⚡</div>
+        구글시트를 연결하거나 SYNC를 눌러 데이터를 불러오세요.
+      </div>
+    </div>
+  </div>
+
+  <!-- DETAIL PANEL -->
+  <div class="detail-wrap" id="detailPanel">
+    <div class="detail-header">
+      <div>
+        <div class="detail-title">// WINNER DETAILS</div>
+        <div class="detail-event-name" id="detailEventName"></div>
+      </div>
+      <button class="close-btn" onclick="closeDetail()">✕</button>
+    </div>
+    <div class="detail-body">
+      <div class="winners-grid" id="winnersGrid"></div>
+      <div class="detail-summary" id="detailSummary"></div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  PUNKBISM EVENT PLATFORM — BUILT FOR HOLDERS — DATA POWERED BY GOOGLE SHEETS
+</footer>
+
+<script>
+// ─── DATA ───────────────────────────────────────────
+// 구글시트 연결 전 보여줄 샘플 데이터
+const SAMPLE_DATA = [
+  { eventName:"Genesis Punk 에어드랍", date:"2025.01.15", category:"NFT", winner:"PunkHolder_A", wallet:"0x1a2b...3c4d", prize:"Genesis Punk #001~#005", prizeDetail:"한정판 Genesis 시리즈 5종", payDate:"2025.01.20", airdrop:"완료" },
+  { eventName:"Genesis Punk 에어드랍", date:"2025.01.15", category:"NFT", winner:"CryptoKing99", wallet:"0x5e6f...7g8h", prize:"Genesis Punk #001~#005", prizeDetail:"한정판 Genesis 시리즈 5종", payDate:"2025.01.20", airdrop:"완료" },
+  { eventName:"Genesis Punk 에어드랍", date:"2025.01.15", category:"NFT", winner:"NFTWatcher", wallet:"0x9i0j...1k2l", prize:"Genesis Punk #001~#005", prizeDetail:"한정판 Genesis 시리즈 5종", payDate:"2025.01.20", airdrop:"완료" },
+  { eventName:"커뮤니티 보상 이벤트", date:"2025.02.10", category:"토큰", winner:"ActivePunk", wallet:"0x3m4n...5o6p", prize:"PUNK 토큰 5,000개", prizeDetail:"커뮤니티 기여 보상", payDate:"2025.02.14", airdrop:"완료" },
+  { eventName:"커뮤니티 보상 이벤트", date:"2025.02.10", category:"토큰", winner:"PunkFan2024", wallet:"0x7q8r...9s0t", prize:"PUNK 토큰 5,000개", prizeDetail:"커뮤니티 기여 보상", payDate:"2025.02.14", airdrop:"완료" },
+  { eventName:"파트너십 WL 이벤트", date:"2025.02.28", category:"화이트리스트", winner:"WLHunter01", wallet:"0x9c0d...1e2f", prize:"DegenPunk WL 10자리", prizeDetail:"파트너 프로젝트 민트 WL", payDate:"2025.03.05", airdrop:"완료" },
+  { eventName:"파트너십 WL 이벤트", date:"2025.02.28", category:"화이트리스트", winner:"EarlyAdopter", wallet:"0x3g4h...5i6j", prize:"DegenPunk WL 10자리", prizeDetail:"파트너 프로젝트 민트 WL", payDate:"2025.03.05", airdrop:"완료" },
+  { eventName:"SNS 공유 이벤트", date:"2025.03.15", category:"기타", winner:"PunkTwitter", wallet:"0x1o2p...3q4r", prize:"굿즈 패키지", prizeDetail:"후드+스티커 세트", payDate:"2025.03.25", airdrop:"완료" },
+  { eventName:"2주년 기념 스페셜 NFT", date:"2025.04.01", category:"NFT", winner:"OGPunkHolder", wallet:"0x9w0x...1y2z", prize:"Anniversary Punk NFT", prizeDetail:"2주년 한정 기념 NFT 3종", payDate:"2025.04.10", airdrop:"대기" },
+  { eventName:"2주년 기념 스페셜 NFT", date:"2025.04.01", category:"NFT", winner:"Diamond_Punk", wallet:"0x3a4b...5c6d", prize:"Anniversary Punk NFT", prizeDetail:"2주년 한정 기념 NFT 3종", payDate:"2025.04.10", airdrop:"대기" },
+  { eventName:"거버넌스 참여 토큰 보상", date:"2025.04.05", category:"토큰", winner:"VotePunk", wallet:"0x1i2j...3k4l", prize:"PUNK 토큰 10,000개", prizeDetail:"DAO 투표 참여 보상", payDate:"2025.04.15", airdrop:"대기" },
+  { eventName:"거버넌스 참여 토큰 보상", date:"2025.04.05", category:"토큰", winner:"GovParticipant", wallet:"0x5m6n...7o8p", prize:"PUNK 토큰 10,000개", prizeDetail:"DAO 투표 참여 보상", payDate:"2025.04.15", airdrop:"대기" },
+  { eventName:"콜라보 WL 추첨", date:"2025.04.12", category:"화이트리스트", winner:"Collab_Fan", wallet:"0x7y8z...9a0b", prize:"CyberPunk Collab WL", prizeDetail:"콜라보 민트 우선 참여권", payDate:"2025.04.20", airdrop:"대기" },
+];
+
+let allRows = [];
+let grouped = [];
+let currentFilter = '전체';
+let selectedEventName = null;
+let sheetUrl = localStorage.getItem('punkbism_sheet_url') || '';
+
+// ─── INIT ────────────────────────────────────────────
+window.addEventListener('DOMContentLoaded', () => {
+  if (sheetUrl) {
+    document.getElementById('sheetUrlInput').value = sheetUrl;
+    loadData();
+  } else {
+    useSample();
+  }
+});
+
+function useSample() {
+  allRows = SAMPLE_DATA;
+  processData();
+  document.getElementById('lastSyncLabel').textContent = 'SAMPLE DATA';
+}
+
+// ─── GOOGLE SHEET LOAD ───────────────────────────────
+async function loadData() {
+  if (!sheetUrl) {
+    useSample();
+    return;
+  }
+  document.getElementById('lastSyncLabel').textContent = 'SYNCING...';
+  try {
+    const res = await fetch(sheetUrl);
+    if (!res.ok) throw new Error('fetch failed');
+    const csv = await res.text();
+    allRows = parseCSV(csv);
+    const now = new Date();
+    document.getElementById('lastSyncLabel').textContent =
+      'SYNCED ' + now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0');
+    processData();
+  } catch(e) {
+    document.getElementById('lastSyncLabel').textContent = 'SYNC FAILED';
+    if (allRows.length === 0) useSample();
+  }
+}
+
+function parseCSV(csv) {
+  const lines = csv.trim().split('\n');
+  if (lines.length < 2) return [];
+  // skip header row
+  return lines.slice(1).map(line => {
+    const cols = line.split(',').map(c => c.replace(/^"|"$/g, '').trim());
+    return {
+      eventName:   cols[0] || '',
+      date:        cols[1] || '',
+      category:    cols[2] || '기타',
+      winner:      cols[3] || '',
+      wallet:      cols[4] || '',
+      prize:       cols[5] || '',
+      prizeDetail: cols[6] || '',
+      payDate:     cols[7] || '',
+      airdrop:     cols[8] || '대기',
+    };
+  }).filter(r => r.eventName);
+}
+
+// ─── DATA PROCESSING ─────────────────────────────────
+function processData() {
+  // group by eventName
+  const map = {};
+  allRows.forEach(r => {
+    if (!map[r.eventName]) {
+      map[r.eventName] = {
+        eventName: r.eventName,
+        date: r.date,
+        category: r.category,
+        prize: r.prize,
+        prizeDetail: r.prizeDetail,
+        payDate: r.payDate,
+        winners: [],
+      };
+    }
+    map[r.eventName].winners.push({ name: r.winner, wallet: r.wallet, airdrop: r.airdrop });
+  });
+  grouped = Object.values(map);
+  updateStats();
+  renderTable();
+}
+
+function updateStats() {
+  const visible = filteredEvents();
+  const done = visible.filter(e => e.winners.every(w => w.airdrop === '완료')).length;
+  const pending = visible.filter(e => e.winners.some(w => w.airdrop !== '완료')).length;
+  const winners = visible.reduce((s, e) => s + e.winners.length, 0);
+  document.getElementById('sTotalEvents').textContent = visible.length;
+  document.getElementById('sDone').textContent = done;
+  document.getElementById('sPending').textContent = pending;
+  document.getElementById('sWinners').textContent = winners;
+}
+
+// ─── FILTER / SEARCH ─────────────────────────────────
+function setFilter(cat) {
+  currentFilter = cat;
+  ['전체','NFT','토큰','화이트리스트','기타'].forEach(c => {
+    const btn = document.getElementById('btn-' + c);
+    btn.className = 'filter-btn';
+    if (c === cat) btn.className = 'filter-btn active-' + cat;
+  });
+  closeDetail();
+  updateStats();
+  renderTable();
+}
+
+function filteredEvents() {
+  const q = (document.getElementById('searchInput')?.value || '').toLowerCase();
+  return grouped.filter(e => {
+    const matchCat = currentFilter === '전체' || e.category === currentFilter;
+    const matchQ = !q ||
+      e.eventName.toLowerCase().includes(q) ||
+      e.winners.some(w => w.name.toLowerCase().includes(q) || w.wallet.toLowerCase().includes(q));
+    return matchCat && matchQ;
+  });
+}
+
+// ─── RENDER TABLE ─────────────────────────────────────
+function renderTable() {
+  updateStats();
+  const events = filteredEvents();
+  const list = document.getElementById('eventList');
+
+  if (events.length === 0) {
+    list.innerHTML = `<div class="state-box"><div class="big">⚡</div>검색 결과가 없습니다.</div>`;
+    return;
+  }
+
+  list.innerHTML = events.map((e, i) => {
+    const allDone = e.winners.every(w => w.airdrop === '완료');
+    const statusClass = allDone ? 's-done' : 's-pending';
+    const statusDot = allDone ? 'dot-done' : 'dot-pending';
+    const statusLabel = allDone ? 'DONE' : 'PENDING';
+    const firstWinner = e.winners[0]?.name || '—';
+    const moreCount = e.winners.length > 1 ? ` 외 ${e.winners.length - 1}명` : '';
+    const isSelected = selectedEventName === e.eventName;
+    return `
+    <div class="event-row${isSelected ? ' selected' : ''}" onclick="toggleDetail('${e.eventName.replace(/'/g,"\\'")}', ${i})" style="animation-delay:${i * 0.04}s">
+      <div>
+        <div class="event-name">${e.eventName}</div>
+        <div class="event-date">${e.date}</div>
+      </div>
+      <div><span class="cat-pill cat-${e.category}">${e.category}</span></div>
+      <div>
+        <div class="winner-name">${firstWinner}</div>
+        <div class="winner-count">${e.winners.length}명 당첨${moreCount}</div>
+      </div>
+      <div>
+        <div class="prize-main">${e.prize}</div>
+        <div class="prize-sub">${e.prizeDetail}</div>
+      </div>
+      <div class="pay-date">${e.payDate}</div>
+      <div><span class="status-pill ${statusClass}"><span class="status-dot ${statusDot}"></span>${statusLabel}</span></div>
+    </div>`;
+  }).join('');
+}
+
+// ─── DETAIL PANEL ─────────────────────────────────────
+function toggleDetail(eventName, idx) {
+  if (selectedEventName === eventName) {
+    closeDetail();
+    return;
+  }
+  selectedEventName = eventName;
+  renderTable();
+  const event = grouped.find(e => e.eventName === eventName);
+  if (!event) return;
+
+  document.getElementById('detailEventName').textContent = event.eventName;
+
+  const grid = document.getElementById('winnersGrid');
+  grid.innerHTML = event.winners.map((w, i) => `
+    <div class="winner-card">
+      <div class="wc-rank">// WINNER #${String(i+1).padStart(2,'0')}</div>
+      <div class="wc-name">${w.name}</div>
+      <div class="wc-wallet">${w.wallet}</div>
+      <span class="status-pill ${w.airdrop === '완료' ? 's-done' : 's-pending'}">
+        <span class="status-dot ${w.airdrop === '완료' ? 'dot-done' : 'dot-pending'}"></span>
+        ${w.airdrop === '완료' ? 'AIRDROP DONE' : 'PENDING'}
+      </span>
+    </div>
+  `).join('');
+
+  const done = event.winners.filter(w => w.airdrop === '완료').length;
+  document.getElementById('detailSummary').innerHTML = `
+    <div class="ds-item">총 당첨자 <strong>${event.winners.length}명</strong></div>
+    <div class="ds-item">완료 <strong style="color:var(--done)">${done}명</strong></div>
+    <div class="ds-item">대기 <strong style="color:var(--pending)">${event.winners.length - done}명</strong></div>
+    <div class="ds-item">지급 예정일 <strong>${event.payDate}</strong></div>
+    <div class="ds-item">상품 <strong>${event.prize}</strong></div>
+  `;
+
+  const panel = document.getElementById('detailPanel');
+  panel.classList.add('open');
+  setTimeout(() => panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 50);
+}
+
+function closeDetail() {
+  selectedEventName = null;
+  document.getElementById('detailPanel').classList.remove('open');
+  renderTable();
+}
+
+// ─── SHEET URL SETUP ──────────────────────────────────
+function toggleSetup() {
+  const banner = document.getElementById('setupBanner');
+  banner.classList.toggle('show');
+}
+
+function saveSheetUrl() {
+  const val = document.getElementById('sheetUrlInput').value.trim();
+  if (!val) return;
+  sheetUrl = val;
+  localStorage.setItem('punkbism_sheet_url', val);
+  document.getElementById('setupBanner').classList.remove('show');
+  loadData();
+}
+</script>
+</body>
+</html>
