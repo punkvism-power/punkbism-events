@@ -482,7 +482,7 @@ footer{
 <div class="wrap">
   <!-- SETUP -->
   <div class="setup" id="setup">
-    <div class="setup-t">// GOOGLE SHEET 연동 설정</div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;"><div class="setup-t" style="margin-bottom:0;">// GOOGLE SHEET 연동 설정</div><button onclick="document.getElementById('setup').classList.remove('on')" style="background:none;border:1px solid var(--line2);border-radius:4px;color:var(--text2);width:28px;height:28px;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;transition:all .15s;" onmouseover="this.style.borderColor='var(--pu2)';this.style.color='var(--pu3)'" onmouseout="this.style.borderColor='var(--line2)';this.style.color='var(--text2)'">✕</button></div>
     <div class="setup-b">
       구글시트 <strong>파일 → 웹에 게시 → CSV</strong> 로 발행 후 URL을 입력하세요.<br>
       컬럼: <code>이벤트명</code> <code>게시날짜</code> <code>마감날짜</code> <code>카테고리</code> <code>당첨자닉네임</code> <code>지갑주소</code> <code>당첨상품</code> <code>상품설명</code> <code>지급날짜</code> <code>에어드랍</code><br>
