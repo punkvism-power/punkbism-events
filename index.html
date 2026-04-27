@@ -514,13 +514,13 @@ footer{
   <!-- TOOLBAR -->
   <div class="toolbar">
     <div class="filters">
-      <button class="fb aall" id="f-전체" onclick="setF('전체')">전체</button>
-      <button class="fb" id="f-시민권" onclick="setF('시민권')">시민권</button>
-      <button class="fb" id="f-토큰" onclick="setF('토큰')">토큰</button>
-      <button class="fb" id="f-화이트리스트" onclick="setF('화이트리스트')">화이트리스트</button>
-      <button class="fb" id="f-기타" onclick="setF('기타')">기타</button>
-      <button class="fb" id="sf-진행중" onclick="setSF('진행중')"><span class="sf-dot sf-dot-live"></span>진행중</button>
-      <button class="fb" id="sf-종료" onclick="setSF('종료')"><span class="sf-dot sf-dot-end"></span>종료</button>
+      <button class="fb aall" id="cat-전체" onclick="setF('전체')">전체</button>
+      <button class="fb" id="cat-시민권" onclick="setF('시민권')">시민권</button>
+      <button class="fb" id="cat-토큰" onclick="setF('토큰')">토큰</button>
+      <button class="fb" id="cat-화이트리스트" onclick="setF('화이트리스트')">화이트리스트</button>
+      <button class="fb" id="cat-기타" onclick="setF('기타')">기타</button>
+      <button class="fb" id="st-진행중" onclick="setSF('진행중')"><span class="sf-dot sf-dot-live"></span>진행중</button>
+      <button class="fb" id="st-종료" onclick="setSF('종료')"><span class="sf-dot sf-dot-end"></span>종료</button>
     </div>
     <div class="sw">
       <div class="si">
@@ -791,11 +791,10 @@ function closeD(){sel=null;document.getElementById('detail').classList.remove('o
 
 function setF(v){
   filt = v;
-  /* 카테고리 버튼만 업데이트 - 상태 버튼 절대 건드리지 않음 */
-  const catMap = {'전체':'aall','시민권':'anft','토큰':'atok','화이트리스트':'awl','기타':'aetc'};
+  const catCls = {'전체':'aall','시민권':'anft','토큰':'atok','화이트리스트':'awl','기타':'aetc'};
   ['전체','시민권','토큰','화이트리스트','기타'].forEach(k=>{
-    const btn = document.getElementById('f-'+k);
-    if(btn) btn.className = 'fb' + (k===v ? ' '+catMap[k] : '');
+    const btn = document.getElementById('cat-'+k);
+    if(btn) btn.className = 'fb' + (k===v ? ' '+catCls[k] : '');
   });
   sel=null;
   document.getElementById('detail').classList.remove('on');
@@ -804,9 +803,8 @@ function setF(v){
 
 function setSF(s){
   statusFilt = s;
-  /* 상태 버튼만 업데이트 - 카테고리 버튼 절대 건드리지 않음 */
-  const liveBtn = document.getElementById('sf-진행중');
-  const endBtn  = document.getElementById('sf-종료');
+  const liveBtn = document.getElementById('st-진행중');
+  const endBtn  = document.getElementById('st-종료');
   if(liveBtn){
     liveBtn.className = s==='진행중' ? 'fb sf-live-active' : 'fb';
     liveBtn.innerHTML = '<span class="sf-dot sf-dot-live"></span>진행중';
