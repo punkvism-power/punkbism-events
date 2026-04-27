@@ -321,6 +321,33 @@ header{
   font-family:var(--mono);font-size:11px;font-weight:700;
   white-space:nowrap;letter-spacing:.04em;
 }
+.status-live{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:3px 9px;border-radius:4px;
+  font-family:var(--mono);font-size:11px;font-weight:700;
+  letter-spacing:.06em;white-space:nowrap;vertical-align:middle;
+  margin-left:8px;
+}
+.status-on{
+  background:#00ff44;color:#003010;
+  box-shadow:0 0 8px rgba(0,255,68,.6),0 0 16px rgba(0,255,68,.3);
+}
+.status-off{
+  background:#ff2244;color:#fff;
+  box-shadow:0 0 8px rgba(255,34,68,.6),0 0 16px rgba(255,34,68,.3);
+}
+.live-dot{
+  width:6px;height:6px;border-radius:50%;flex-shrink:0;
+}
+.live-dot-on{
+  background:#003010;
+  animation:livepulse 1s infinite;
+}
+.live-dot-off{background:#fff;}
+@keyframes livepulse{
+  0%,100%{opacity:1;transform:scale(1);}
+  50%{opacity:0.4;transform:scale(0.7);}
+}
 .bdone{background:rgba(74,222,128,.1);color:var(--done);border:1px solid rgba(74,222,128,.25);}
 .bpend{background:rgba(250,204,21,.1);color:var(--pend);border:1px solid rgba(250,204,21,.25);}
 .bdot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
@@ -496,49 +523,91 @@ footer{
       <div class="th">에어드랍</div>
     </div>
     <div id="list"><div class="row" onclick="toggle('Genesis Punk 에어드랍')" style="animation-delay:0s">
-      <div><div class="en">Genesis Punk 에어드랍</div><div class="ed">2025.01.15</div></div>
+      <div style="display:flex;align-items:flex-start;gap:12px;">
+        <span class="status-live status-off" style="margin-top:2px;flex-shrink:0;"><span class="live-dot live-dot-off"></span>종료</span>
+        <div>
+          <div class="en">Genesis Punk 에어드랍</div>
+          <div class="ed">2025.01.15</div>
+        </div>
+      </div>
       <div><span class="cat cnft">NFT</span></div>
       <div><div class="wn">PunkHolder_A</div><div class="wc">3명 당첨 외 2명</div></div>
       <div><div class="pm">Genesis Punk #001~#005</div><div class="ps">한정판 Genesis 시리즈 5종</div></div>
       <div class="pd">2025.01.20</div>
       <div><span class="badge bdone"><span class="bdot bddone"></span>DONE</span></div>
     </div><div class="row" onclick="toggle('커뮤니티 보상 이벤트')" style="animation-delay:0.035s">
-      <div><div class="en">커뮤니티 보상 이벤트</div><div class="ed">2025.02.10</div></div>
+      <div style="display:flex;align-items:flex-start;gap:12px;">
+        <span class="status-live status-off" style="margin-top:2px;flex-shrink:0;"><span class="live-dot live-dot-off"></span>종료</span>
+        <div>
+          <div class="en">커뮤니티 보상 이벤트</div>
+          <div class="ed">2025.02.10</div>
+        </div>
+      </div>
       <div><span class="cat ctok">토큰</span></div>
       <div><div class="wn">ActivePunk</div><div class="wc">2명 당첨 외 1명</div></div>
       <div><div class="pm">PUNK 토큰 5,000개</div><div class="ps">커뮤니티 기여 보상</div></div>
       <div class="pd">2025.02.14</div>
       <div><span class="badge bdone"><span class="bdot bddone"></span>DONE</span></div>
     </div><div class="row" onclick="toggle('파트너십 WL 이벤트')" style="animation-delay:0.07s">
-      <div><div class="en">파트너십 WL 이벤트</div><div class="ed">2025.02.28</div></div>
+      <div style="display:flex;align-items:flex-start;gap:12px;">
+        <span class="status-live status-off" style="margin-top:2px;flex-shrink:0;"><span class="live-dot live-dot-off"></span>종료</span>
+        <div>
+          <div class="en">파트너십 WL 이벤트</div>
+          <div class="ed">2025.02.28</div>
+        </div>
+      </div>
       <div><span class="cat cwl">화이트리스트</span></div>
       <div><div class="wn">WLHunter01</div><div class="wc">2명 당첨 외 1명</div></div>
       <div><div class="pm">DegenPunk WL 10자리</div><div class="ps">파트너 프로젝트 민트 WL</div></div>
       <div class="pd">2025.03.05</div>
       <div><span class="badge bdone"><span class="bdot bddone"></span>DONE</span></div>
     </div><div class="row" onclick="toggle('SNS 공유 이벤트')" style="animation-delay:0.10500000000000001s">
-      <div><div class="en">SNS 공유 이벤트</div><div class="ed">2025.03.15</div></div>
+      <div style="display:flex;align-items:flex-start;gap:12px;">
+        <span class="status-live status-off" style="margin-top:2px;flex-shrink:0;"><span class="live-dot live-dot-off"></span>종료</span>
+        <div>
+          <div class="en">SNS 공유 이벤트</div>
+          <div class="ed">2025.03.15</div>
+        </div>
+      </div>
       <div><span class="cat cetc">기타</span></div>
       <div><div class="wn">PunkTwitter</div><div class="wc">1명 당첨</div></div>
       <div><div class="pm">굿즈 패키지</div><div class="ps">후드+스티커 세트</div></div>
       <div class="pd">2025.03.25</div>
       <div><span class="badge bdone"><span class="bdot bddone"></span>DONE</span></div>
     </div><div class="row" onclick="toggle('2주년 기념 스페셜 NFT')" style="animation-delay:0.14s">
-      <div><div class="en">2주년 기념 스페셜 NFT</div><div class="ed">2025.04.01</div></div>
+      <div style="display:flex;align-items:flex-start;gap:12px;">
+        <span class="status-live status-on" style="margin-top:2px;flex-shrink:0;"><span class="live-dot live-dot-on"></span>Live</span>
+        <div>
+          <div class="en">2주년 기념 스페셜 NFT</div>
+          <div class="ed">2025.04.01</div>
+        </div>
+      </div>
       <div><span class="cat cnft">NFT</span></div>
       <div><div class="wn">OGPunkHolder</div><div class="wc">2명 당첨 외 1명</div></div>
       <div><div class="pm">Anniversary Punk NFT</div><div class="ps">2주년 한정 기념 NFT 3종</div></div>
       <div class="pd">2025.04.10</div>
       <div><span class="badge bpend"><span class="bdot bdpend"></span>PENDING</span></div>
     </div><div class="row" onclick="toggle('거버넌스 참여 토큰 보상')" style="animation-delay:0.17500000000000002s">
-      <div><div class="en">거버넌스 참여 토큰 보상</div><div class="ed">2025.04.05</div></div>
+      <div style="display:flex;align-items:flex-start;gap:12px;">
+        <span class="status-live status-on" style="margin-top:2px;flex-shrink:0;"><span class="live-dot live-dot-on"></span>Live</span>
+        <div>
+          <div class="en">거버넌스 참여 토큰 보상</div>
+          <div class="ed">2025.04.05</div>
+        </div>
+      </div>
       <div><span class="cat ctok">토큰</span></div>
       <div><div class="wn">VotePunk</div><div class="wc">2명 당첨 외 1명</div></div>
       <div><div class="pm">PUNK 토큰 10,000개</div><div class="ps">DAO 투표 참여 보상</div></div>
       <div class="pd">2025.04.15</div>
       <div><span class="badge bpend"><span class="bdot bdpend"></span>PENDING</span></div>
     </div><div class="row" onclick="toggle('콜라보 WL 추첨')" style="animation-delay:0.21000000000000002s">
-      <div><div class="en">콜라보 WL 추첨</div><div class="ed">2025.04.12</div></div>
+      <div style="display:flex;align-items:flex-start;gap:12px;">
+        <span class="status-live status-on" style="margin-top:2px;flex-shrink:0;"><span class="live-dot live-dot-on"></span>Live</span>
+        <div>
+          <div class="en">콜라보 WL 추첨</div>
+          <div class="ed">2025.04.12</div>
+        </div>
+      </div>
       <div><span class="cat cwl">화이트리스트</span></div>
       <div><div class="wn">Collab_Fan</div><div class="wc">1명 당첨</div></div>
       <div><div class="pm">CyberPunk Collab WL</div><div class="ps">콜라보 민트 우선 참여권</div></div>
@@ -574,19 +643,19 @@ footer{
 
 <script>
 const SAMPLE_DATA = [
-  { eventName:"Genesis Punk 에어드랍", date:"2025.01.15", category:"NFT", winner:"PunkHolder_A", wallet:"0x1a2b...3c4d", prize:"Genesis Punk #001~#005", prizeDetail:"한정판 Genesis 시리즈 5종", payDate:"2025.01.20", airdrop:"완료" },
-  { eventName:"Genesis Punk 에어드랍", date:"2025.01.15", category:"NFT", winner:"CryptoKing99", wallet:"0x5e6f...7g8h", prize:"Genesis Punk #001~#005", prizeDetail:"한정판 Genesis 시리즈 5종", payDate:"2025.01.20", airdrop:"완료" },
-  { eventName:"Genesis Punk 에어드랍", date:"2025.01.15", category:"NFT", winner:"NFTWatcher", wallet:"0x9i0j...1k2l", prize:"Genesis Punk #001~#005", prizeDetail:"한정판 Genesis 시리즈 5종", payDate:"2025.01.20", airdrop:"완료" },
-  { eventName:"커뮤니티 보상 이벤트", date:"2025.02.10", category:"토큰", winner:"ActivePunk", wallet:"0x3m4n...5o6p", prize:"PUNK 토큰 5,000개", prizeDetail:"커뮤니티 기여 보상", payDate:"2025.02.14", airdrop:"완료" },
-  { eventName:"커뮤니티 보상 이벤트", date:"2025.02.10", category:"토큰", winner:"PunkFan2024", wallet:"0x7q8r...9s0t", prize:"PUNK 토큰 5,000개", prizeDetail:"커뮤니티 기여 보상", payDate:"2025.02.14", airdrop:"완료" },
-  { eventName:"파트너십 WL 이벤트", date:"2025.02.28", category:"화이트리스트", winner:"WLHunter01", wallet:"0x9c0d...1e2f", prize:"DegenPunk WL 10자리", prizeDetail:"파트너 프로젝트 민트 WL", payDate:"2025.03.05", airdrop:"완료" },
-  { eventName:"파트너십 WL 이벤트", date:"2025.02.28", category:"화이트리스트", winner:"EarlyAdopter", wallet:"0x3g4h...5i6j", prize:"DegenPunk WL 10자리", prizeDetail:"파트너 프로젝트 민트 WL", payDate:"2025.03.05", airdrop:"완료" },
-  { eventName:"SNS 공유 이벤트", date:"2025.03.15", category:"기타", winner:"PunkTwitter", wallet:"0x1o2p...3q4r", prize:"굿즈 패키지", prizeDetail:"후드+스티커 세트", payDate:"2025.03.25", airdrop:"완료" },
-  { eventName:"2주년 기념 스페셜 NFT", date:"2025.04.01", category:"NFT", winner:"OGPunkHolder", wallet:"0x9w0x...1y2z", prize:"Anniversary Punk NFT", prizeDetail:"2주년 한정 기념 NFT 3종", payDate:"2025.04.10", airdrop:"대기" },
-  { eventName:"2주년 기념 스페셜 NFT", date:"2025.04.01", category:"NFT", winner:"Diamond_Punk", wallet:"0x3a4b...5c6d", prize:"Anniversary Punk NFT", prizeDetail:"2주년 한정 기념 NFT 3종", payDate:"2025.04.10", airdrop:"대기" },
-  { eventName:"거버넌스 참여 토큰 보상", date:"2025.04.05", category:"토큰", winner:"VotePunk", wallet:"0x1i2j...3k4l", prize:"PUNK 토큰 10,000개", prizeDetail:"DAO 투표 참여 보상", payDate:"2025.04.15", airdrop:"대기" },
-  { eventName:"거버넌스 참여 토큰 보상", date:"2025.04.05", category:"토큰", winner:"GovParticipant", wallet:"0x5m6n...7o8p", prize:"PUNK 토큰 10,000개", prizeDetail:"DAO 투표 참여 보상", payDate:"2025.04.15", airdrop:"대기" },
-  { eventName:"콜라보 WL 추첨", date:"2025.04.12", category:"화이트리스트", winner:"Collab_Fan", wallet:"0x7y8z...9a0b", prize:"CyberPunk Collab WL", prizeDetail:"콜라보 민트 우선 참여권", payDate:"2025.04.20", airdrop:"대기" },
+  { eventName:"Genesis Punk 에어드랍", date:"2025.01.15", category:"NFT", winner:"PunkHolder_A", wallet:"0x1a2b...3c4d", prize:"Genesis Punk #001~#005", prizeDetail:"한정판 Genesis 시리즈 5종", payDate:"2025.01.20", airdrop:"완료", status:"종료" },
+  { eventName:"Genesis Punk 에어드랍", date:"2025.01.15", category:"NFT", winner:"CryptoKing99", wallet:"0x5e6f...7g8h", prize:"Genesis Punk #001~#005", prizeDetail:"한정판 Genesis 시리즈 5종", payDate:"2025.01.20", airdrop:"완료", status:"종료" },
+  { eventName:"Genesis Punk 에어드랍", date:"2025.01.15", category:"NFT", winner:"NFTWatcher", wallet:"0x9i0j...1k2l", prize:"Genesis Punk #001~#005", prizeDetail:"한정판 Genesis 시리즈 5종", payDate:"2025.01.20", airdrop:"완료", status:"종료" },
+  { eventName:"커뮤니티 보상 이벤트", date:"2025.02.10", category:"토큰", winner:"ActivePunk", wallet:"0x3m4n...5o6p", prize:"PUNK 토큰 5,000개", prizeDetail:"커뮤니티 기여 보상", payDate:"2025.02.14", airdrop:"완료", status:"종료" },
+  { eventName:"커뮤니티 보상 이벤트", date:"2025.02.10", category:"토큰", winner:"PunkFan2024", wallet:"0x7q8r...9s0t", prize:"PUNK 토큰 5,000개", prizeDetail:"커뮤니티 기여 보상", payDate:"2025.02.14", airdrop:"완료", status:"종료" },
+  { eventName:"파트너십 WL 이벤트", date:"2025.02.28", category:"화이트리스트", winner:"WLHunter01", wallet:"0x9c0d...1e2f", prize:"DegenPunk WL 10자리", prizeDetail:"파트너 프로젝트 민트 WL", payDate:"2025.03.05", airdrop:"완료", status:"종료" },
+  { eventName:"파트너십 WL 이벤트", date:"2025.02.28", category:"화이트리스트", winner:"EarlyAdopter", wallet:"0x3g4h...5i6j", prize:"DegenPunk WL 10자리", prizeDetail:"파트너 프로젝트 민트 WL", payDate:"2025.03.05", airdrop:"완료", status:"종료" },
+  { eventName:"SNS 공유 이벤트", date:"2025.03.15", category:"기타", winner:"PunkTwitter", wallet:"0x1o2p...3q4r", prize:"굿즈 패키지", prizeDetail:"후드+스티커 세트", payDate:"2025.03.25", airdrop:"완료", status:"종료" },
+  { eventName:"2주년 기념 스페셜 NFT", date:"2025.04.01", category:"NFT", winner:"OGPunkHolder", wallet:"0x9w0x...1y2z", prize:"Anniversary Punk NFT", prizeDetail:"2주년 한정 기념 NFT 3종", payDate:"2025.04.10", airdrop:"대기", status:"진행중" },
+  { eventName:"2주년 기념 스페셜 NFT", date:"2025.04.01", category:"NFT", winner:"Diamond_Punk", wallet:"0x3a4b...5c6d", prize:"Anniversary Punk NFT", prizeDetail:"2주년 한정 기념 NFT 3종", payDate:"2025.04.10", airdrop:"대기", status:"진행중" },
+  { eventName:"거버넌스 참여 토큰 보상", date:"2025.04.05", category:"토큰", winner:"VotePunk", wallet:"0x1i2j...3k4l", prize:"PUNK 토큰 10,000개", prizeDetail:"DAO 투표 참여 보상", payDate:"2025.04.15", airdrop:"대기", status:"진행중" },
+  { eventName:"거버넌스 참여 토큰 보상", date:"2025.04.05", category:"토큰", winner:"GovParticipant", wallet:"0x5m6n...7o8p", prize:"PUNK 토큰 10,000개", prizeDetail:"DAO 투표 참여 보상", payDate:"2025.04.15", airdrop:"대기", status:"진행중" },
+  { eventName:"콜라보 WL 추첨", date:"2025.04.12", category:"화이트리스트", winner:"Collab_Fan", wallet:"0x7y8z...9a0b", prize:"CyberPunk Collab WL", prizeDetail:"콜라보 민트 우선 참여권", payDate:"2025.04.20", airdrop:"대기", status:"진행중" },
 ];
 
 let rows=[], grp=[], filt='전체', sel=null;
@@ -644,14 +713,14 @@ function parseCSV(csv){
   if(ls.length<2)return[];
   return ls.slice(1).map(l=>{
     const c=parseLine(l);
-    return{eventName:c[0]||'',date:c[1]||'',category:c[2]||'기타',winner:c[3]||'',wallet:c[4]||'',prize:c[5]||'',prizeDetail:c[6]||'',payDate:c[7]||'',airdrop:c[8]||'대기'};
+    return{eventName:c[0]||'',date:c[1]||'',category:c[2]||'기타',winner:c[3]||'',wallet:c[4]||'',prize:c[5]||'',prizeDetail:c[6]||'',payDate:c[7]||'',airdrop:c[8]||'대기',status:c[9]||''};
   }).filter(r=>r.eventName);
 }
 
 function proc(){
   const m={};
   rows.forEach(r=>{
-    if(!m[r.eventName])m[r.eventName]={eventName:r.eventName,date:r.date,category:r.category,prize:r.prize,prizeDetail:r.prizeDetail,payDate:r.payDate,winners:[]};
+    if(!m[r.eventName])m[r.eventName]={eventName:r.eventName,date:r.date,category:r.category,prize:r.prize,prizeDetail:r.prizeDetail,payDate:r.payDate,status:r.status,winners:[]};
     m[r.eventName].winners.push({name:r.winner,wallet:r.wallet,airdrop:r.airdrop});
   });
   grp=Object.values(m);stats();render();
@@ -710,7 +779,17 @@ function render(){
     const more=e.winners.length>1?` 외 ${e.winners.length-1}명`:'';
     const safe=e.eventName.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
     return `<div class="row${s?' sel':''}" onclick="toggle('${safe}')" style="animation-delay:${i*.035}s">
-      <div><div class="en">${e.eventName}</div><div class="ed">${e.date}</div></div>
+      <div style="display:flex;align-items:flex-start;gap:12px;">
+        ${e.status==='진행중'
+          ?'<span class="status-live status-on" style="margin-top:2px;flex-shrink:0;"><span class="live-dot live-dot-on"></span>Live</span>'
+          :e.status==='종료'
+          ?'<span class="status-live status-off" style="margin-top:2px;flex-shrink:0;"><span class="live-dot live-dot-off"></span>종료</span>'
+          :'<span style="display:inline-flex;width:52px;flex-shrink:0;"></span>'}
+        <div>
+          <div class="en">${e.eventName}</div>
+          <div class="ed">${e.date}</div>
+        </div>
+      </div>
       <div><span class="cat ${catMap[e.category]||'cetc'}">${e.category}</span></div>
       <div><div class="wn">${e.winners[0]?.name||'—'}</div><div class="wc">${e.winners.length}명 당첨${more}</div></div>
       <div><div class="pm">${e.prize}</div><div class="ps">${e.prizeDetail}</div></div>
