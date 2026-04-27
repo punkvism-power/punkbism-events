@@ -791,11 +791,17 @@ function closeD(){sel=null;document.getElementById('detail').classList.remove('o
 
 function setF(v){
   filt = v;
+  /* 카테고리 누르면 상태 필터 자동 초기화 */
+  statusFilt = '전체';
   const catCls = {'전체':'aall','시민권':'anft','토큰':'atok','화이트리스트':'awl','기타':'aetc'};
   ['전체','시민권','토큰','화이트리스트','기타'].forEach(k=>{
     const btn = document.getElementById('cat-'+k);
     if(btn) btn.className = 'fb' + (k===v ? ' '+catCls[k] : '');
   });
+  const liveBtn = document.getElementById('st-진행중');
+  const endBtn  = document.getElementById('st-종료');
+  if(liveBtn){ liveBtn.className='fb'; liveBtn.innerHTML='<span class="sf-dot sf-dot-live"></span>진행중'; }
+  if(endBtn){  endBtn.className='fb';  endBtn.innerHTML='<span class="sf-dot sf-dot-end"></span>종료'; }
   sel=null;
   document.getElementById('detail').classList.remove('on');
   stats();render();
@@ -803,6 +809,13 @@ function setF(v){
 
 function setSF(s){
   statusFilt = s;
+  /* 상태 필터 누르면 카테고리 자동으로 전체로 초기화 */
+  filt = '전체';
+  const catCls = {'전체':'aall','시민권':'anft','토큰':'atok','화이트리스트':'awl','기타':'aetc'};
+  ['전체','시민권','토큰','화이트리스트','기타'].forEach(k=>{
+    const btn = document.getElementById('cat-'+k);
+    if(btn) btn.className = 'fb' + (k==='전체' ? ' aall' : '');
+  });
   const liveBtn = document.getElementById('st-진행중');
   const endBtn  = document.getElementById('st-종료');
   if(liveBtn){
