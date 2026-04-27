@@ -713,7 +713,7 @@ function parseCSV(csv){
   if(ls.length<2)return[];
   return ls.slice(1).map(l=>{
     const c=parseLine(l);
-    return{eventName:c[0]||'',date:c[1]||'',category:c[2]||'기타',winner:c[3]||'',wallet:c[4]||'',prize:c[5]||'',prizeDetail:c[6]||'',payDate:c[7]||'',airdrop:c[8]||'대기',status:c[9]||''};
+    return{status:c[0]||'',eventName:c[1]||'',date:c[2]||'',category:c[3]||'기타',winner:c[4]||'',wallet:c[5]||'',prize:c[6]||'',prizeDetail:c[7]||'',payDate:c[8]||'',airdrop:c[9]||'대기'};
   }).filter(r=>r.eventName);
 }
 
