@@ -254,6 +254,23 @@ header{
 }
 .sclear:hover{border-color:var(--line3);color:#fff;}
 .sclear.on{display:flex;}
+.status-filter{display:flex;gap:6px;}
+.sf{
+  padding:8px 16px;border-radius:6px;
+  border:1px solid var(--line2);background:transparent;
+  color:var(--text3);font-family:var(--mono);font-size:11px;
+  cursor:pointer;transition:all .15s;letter-spacing:.06em;
+  display:flex;align-items:center;gap:6px;white-space:nowrap;
+}
+.sf:hover{color:var(--text2);border-color:var(--line3);}
+.sf.sf-all{border-color:var(--line2);color:var(--text2);}
+.sf.sf-live{border-color:rgba(0,255,68,.4);color:#00ff44;background:rgba(0,255,68,.07);box-shadow:0 0 8px rgba(0,255,68,.1);}
+.sf.sf-end{border-color:rgba(255,34,68,.4);color:#ff2244;background:rgba(255,34,68,.07);box-shadow:0 0 8px rgba(255,34,68,.1);}
+.sf-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+.sf-dot-live{background:#00ff44;animation:livepulse 1s infinite;}
+.sf-dot-end{background:#ff2244;}
+.fb.sf-live-active{border-color:rgba(0,255,68,.5);color:#00ff44;background:rgba(0,255,68,.09);box-shadow:0 0 10px rgba(0,255,68,.12);}
+.fb.sf-end-active{border-color:rgba(255,34,68,.5);color:#ff2244;background:rgba(255,34,68,.09);box-shadow:0 0 10px rgba(255,34,68,.12);}
 
 /* ── TABLE ── */
 .tbl{
@@ -458,22 +475,22 @@ footer{
 <div class="stats">
   <div class="stat">
     <div class="slbl">// TOTAL EVENTS</div>
-    <div class="snum" id="sTotal" style="color:var(--pu3)">7</div>
+    <div class="snum" id="sTotal" style="color:var(--pu3)">1</div>
     <div class="shint">누적 이벤트</div>
   </div>
   <div class="stat">
     <div class="slbl">// AIRDROP DONE</div>
-    <div class="snum" id="sDone" style="color:var(--done)">4</div>
+    <div class="snum" id="sDone" style="color:var(--done)">1</div>
     <div class="shint">에어드랍 완료</div>
   </div>
   <div class="stat">
     <div class="slbl">// PENDING</div>
-    <div class="snum" id="sPend" style="color:var(--pend)">3</div>
+    <div class="snum" id="sPend" style="color:var(--pend)">0</div>
     <div class="shint">지급 대기 중</div>
   </div>
   <div class="stat">
     <div class="slbl">// TOTAL WINNERS</div>
-    <div class="snum" id="sWin" style="color:#fff">13</div>
+    <div class="snum" id="sWin" style="color:#fff">1</div>
     <div class="shint">전체 당첨자</div>
   </div>
 </div>
@@ -497,11 +514,13 @@ footer{
   <!-- TOOLBAR -->
   <div class="toolbar">
     <div class="filters">
-      <button class="fb aall" id="f-전체" onclick="setF('전체')">전체</button>
+      <button class="fb" id="f-전체" onclick="setF('전체')">전체</button>
       <button class="fb" id="f-NFT" onclick="setF('NFT')">시민권</button>
       <button class="fb" id="f-토큰" onclick="setF('토큰')">토큰</button>
       <button class="fb" id="f-화이트리스트" onclick="setF('화이트리스트')">화이트리스트</button>
-      <button class="fb" id="f-기타" onclick="setF('기타')">기타</button>
+      <button class="fb aetc" id="f-기타" onclick="setF('기타')">기타</button>
+      <button class="fb" id="sf-진행중" onclick="setSF('진행중')"><span class="sf-dot sf-dot-live"></span>진행중</button>
+      <button class="fb" id="sf-종료" onclick="setSF('종료')"><span class="sf-dot sf-dot-end"></span>종료</button>
     </div>
     <div class="sw">
       <div class="si">
@@ -522,46 +541,7 @@ footer{
       <div class="th">지급 날짜</div>
       <div class="th">에어드랍</div>
     </div>
-    <div id="list"><div class="row" onclick="toggle('Genesis Punk 에어드랍')" style="animation-delay:0s">
-      <div style="display:flex;align-items:flex-start;gap:12px;">
-        <span class="status-live status-off" style="margin-top:2px;flex-shrink:0;"><span class="live-dot live-dot-off"></span>종료</span>
-        <div>
-          <div class="en">Genesis Punk 에어드랍</div>
-          <div class="ed">2025.01.15</div>
-        </div>
-      </div>
-      <div><span class="cat cnft">NFT</span></div>
-      <div><div class="wn">PunkHolder_A</div><div class="wc">3명 당첨 외 2명</div></div>
-      <div><div class="pm">Genesis Punk #001~#005</div><div class="ps">한정판 Genesis 시리즈 5종</div></div>
-      <div class="pd">미정</div>
-      <div><span class="badge bdone"><span class="bdot bddone"></span>DONE</span></div>
-    </div><div class="row" onclick="toggle('커뮤니티 보상 이벤트')" style="animation-delay:0.035s">
-      <div style="display:flex;align-items:flex-start;gap:12px;">
-        <span class="status-live status-off" style="margin-top:2px;flex-shrink:0;"><span class="live-dot live-dot-off"></span>종료</span>
-        <div>
-          <div class="en">커뮤니티 보상 이벤트</div>
-          <div class="ed">2025.02.10</div>
-        </div>
-      </div>
-      <div><span class="cat ctok">토큰</span></div>
-      <div><div class="wn">ActivePunk</div><div class="wc">2명 당첨 외 1명</div></div>
-      <div><div class="pm">PUNK 토큰 5,000개</div><div class="ps">커뮤니티 기여 보상</div></div>
-      <div class="pd">미정</div>
-      <div><span class="badge bdone"><span class="bdot bddone"></span>DONE</span></div>
-    </div><div class="row" onclick="toggle('파트너십 WL 이벤트')" style="animation-delay:0.07s">
-      <div style="display:flex;align-items:flex-start;gap:12px;">
-        <span class="status-live status-off" style="margin-top:2px;flex-shrink:0;"><span class="live-dot live-dot-off"></span>종료</span>
-        <div>
-          <div class="en">파트너십 WL 이벤트</div>
-          <div class="ed">2025.02.28</div>
-        </div>
-      </div>
-      <div><span class="cat cwl">화이트리스트</span></div>
-      <div><div class="wn">WLHunter01</div><div class="wc">2명 당첨 외 1명</div></div>
-      <div><div class="pm">DegenPunk WL 10자리</div><div class="ps">파트너 프로젝트 민트 WL</div></div>
-      <div class="pd">미정</div>
-      <div><span class="badge bdone"><span class="bdot bddone"></span>DONE</span></div>
-    </div><div class="row" onclick="toggle('SNS 공유 이벤트')" style="animation-delay:0.10500000000000001s">
+    <div id="list"><div class="row" onclick="toggle('SNS 공유 이벤트')" style="animation-delay:0s">
       <div style="display:flex;align-items:flex-start;gap:12px;">
         <span class="status-live status-off" style="margin-top:2px;flex-shrink:0;"><span class="live-dot live-dot-off"></span>종료</span>
         <div>
@@ -574,45 +554,6 @@ footer{
       <div><div class="pm">굿즈 패키지</div><div class="ps">후드+스티커 세트</div></div>
       <div class="pd">미정</div>
       <div><span class="badge bdone"><span class="bdot bddone"></span>DONE</span></div>
-    </div><div class="row" onclick="toggle('2주년 기념 스페셜 NFT')" style="animation-delay:0.14s">
-      <div style="display:flex;align-items:flex-start;gap:12px;">
-        <span class="status-live status-on" style="margin-top:2px;flex-shrink:0;"><span class="live-dot live-dot-on"></span>Live</span>
-        <div>
-          <div class="en">2주년 기념 스페셜 NFT</div>
-          <div class="ed">2025.04.01</div>
-        </div>
-      </div>
-      <div><span class="cat cnft">NFT</span></div>
-      <div><div class="wn">OGPunkHolder</div><div class="wc">2명 당첨 외 1명</div></div>
-      <div><div class="pm">Anniversary Punk NFT</div><div class="ps">2주년 한정 기념 NFT 3종</div></div>
-      <div class="pd">미정</div>
-      <div><span class="badge bpend"><span class="bdot bdpend"></span>PENDING</span></div>
-    </div><div class="row" onclick="toggle('거버넌스 참여 토큰 보상')" style="animation-delay:0.17500000000000002s">
-      <div style="display:flex;align-items:flex-start;gap:12px;">
-        <span class="status-live status-on" style="margin-top:2px;flex-shrink:0;"><span class="live-dot live-dot-on"></span>Live</span>
-        <div>
-          <div class="en">거버넌스 참여 토큰 보상</div>
-          <div class="ed">2025.04.05</div>
-        </div>
-      </div>
-      <div><span class="cat ctok">토큰</span></div>
-      <div><div class="wn">VotePunk</div><div class="wc">2명 당첨 외 1명</div></div>
-      <div><div class="pm">PUNK 토큰 10,000개</div><div class="ps">DAO 투표 참여 보상</div></div>
-      <div class="pd">미정</div>
-      <div><span class="badge bpend"><span class="bdot bdpend"></span>PENDING</span></div>
-    </div><div class="row" onclick="toggle('콜라보 WL 추첨')" style="animation-delay:0.21000000000000002s">
-      <div style="display:flex;align-items:flex-start;gap:12px;">
-        <span class="status-live status-on" style="margin-top:2px;flex-shrink:0;"><span class="live-dot live-dot-on"></span>Live</span>
-        <div>
-          <div class="en">콜라보 WL 추첨</div>
-          <div class="ed">2025.04.12</div>
-        </div>
-      </div>
-      <div><span class="cat cwl">화이트리스트</span></div>
-      <div><div class="wn">Collab_Fan</div><div class="wc">1명 당첨</div></div>
-      <div><div class="pm">CyberPunk Collab WL</div><div class="ps">콜라보 민트 우선 참여권</div></div>
-      <div class="pd">미정</div>
-      <div><span class="badge bpend"><span class="bdot bdpend"></span>PENDING</span></div>
     </div></div>
   </div>
 
@@ -658,7 +599,7 @@ const SAMPLE_DATA = [
   { eventName:"콜라보 WL 추첨", date:"2025.04.12", category:"화이트리스트", winner:"Collab_Fan", wallet:"0x7y8z...9a0b", prize:"CyberPunk Collab WL", prizeDetail:"콜라보 민트 우선 참여권", deadline:"2026.12.31", airdrop:"대기"},
 ];
 
-let rows=[], grp=[], filt='전체', sel=null;
+let rows=[], grp=[], filt='전체', statusFilt='전체', sel=null;
 let sheetUrl=localStorage.getItem('pb_sheet')||'';
 
 /* ── INIT: URL 있으면 로딩 표시 먼저, 샘플 절대 안 보여줌 ── */
@@ -747,7 +688,9 @@ function vis(){
   return grp.filter(e=>{
     const mc=filt==='전체'||e.category===filt;
     const mq=!q||e.eventName.toLowerCase().includes(q)||e.winners.some(w=>w.name.toLowerCase().includes(q)||w.wallet.toLowerCase().includes(q));
-    return mc&&mq;
+    const st=getStatus(e.deadline);
+    const ms=statusFilt==='전체'||(statusFilt==='진행중'&&st==='live')||(statusFilt==='종료'&&st==='ended');
+    return mc&&mq&&ms;
   });
 }
 
@@ -765,6 +708,17 @@ function setF(c){
   ['전체','NFT','토큰','화이트리스트','기타'].forEach(k=>{
     document.getElementById('f-'+k).className='fb'+(k===c?' '+fcls[k]:'');
   });
+  closeD();stats();render();
+}
+
+function setSF(s){
+  statusFilt = statusFilt===s ? '전체' : s; // 같은거 누르면 해제
+  const live = document.getElementById('sf-진행중');
+  const end  = document.getElementById('sf-종료');
+  live.className = statusFilt==='진행중' ? 'fb sf-live-active' : 'fb';
+  end.className  = statusFilt==='종료'   ? 'fb sf-end-active'  : 'fb';
+  live.innerHTML = '<span class="sf-dot sf-dot-live"></span>진행중';
+  end.innerHTML  = '<span class="sf-dot sf-dot-end"></span>종료';
   closeD();stats();render();
 }
 
