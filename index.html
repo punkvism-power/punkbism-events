@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PUNKVISM — EVENT PLATFORM</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;family=Noto+Sans+KR:wght@300;400;500;700&amp;family=Space+Mono:wght@400;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;family=Barlow+Condensed:wght@700;800&amp;family=Noto+Sans+KR:wght@300;400;500;700;900&amp;family=Space+Mono:wght@400;700&amp;display=swap" rel="stylesheet">
 <style>
 :root{
   --bg:#05050a;
@@ -103,6 +103,15 @@ header{
   background:rgba(0,212,170,.06);margin-bottom:1.5rem;
 }
 .hero-tag::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--cy1);}
+.hero-wordmark{
+  font-family:'Barlow Condensed','Bebas Neue',sans-serif;
+  font-size:clamp(80px,10.5vw,130px);
+  font-weight:800;
+  color:#ffffff;
+  line-height:1;
+  letter-spacing:0.05em;
+  margin-bottom:0.05em;
+}
 .hero-h1{
   font-family:var(--disp);
   font-size:clamp(64px,8vw,110px);
@@ -115,17 +124,40 @@ header{
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
 }
 .hero-desc{
-  font-size:15px;color:var(--text2);line-height:1.7;
-  max-width:480px;margin-bottom:2rem;font-weight:300;
+  font-size:16px;color:var(--text);line-height:1.75;
+  max-width:480px;margin-bottom:2rem;font-weight:400;
+  opacity:0.9;
 }
 .hero-chips{display:flex;gap:10px;flex-wrap:wrap;}
 .chip{
   padding:6px 16px;border-radius:20px;font-size:12px;font-weight:500;
   border:1px solid;
 }
-.chip-pu{color:var(--pu3);border-color:rgba(159,125,245,.3);background:rgba(124,58,237,.08);}
-.chip-cy{color:var(--cy1);border-color:rgba(0,212,170,.3);background:rgba(0,212,170,.06);}
+.chip-pu{
+  color:#bf5fff;border-color:rgba(191,95,255,.5);
+  background:rgba(191,95,255,.12);
+  text-shadow:0 0 12px rgba(191,95,255,.6);
+  box-shadow:0 0 12px rgba(191,95,255,.15);
+}
+.chip-cy{
+  color:#00ffcc;border-color:rgba(0,255,204,.5);
+  background:rgba(0,255,204,.1);
+  text-shadow:0 0 12px rgba(0,255,204,.6);
+  box-shadow:0 0 12px rgba(0,255,204,.12);
+}
 .chip-wh{color:var(--text2);border-color:var(--line2);background:rgba(255,255,255,.04);}
+.chip-or{
+  color:#ff6b35;border-color:rgba(255,107,53,.5);
+  background:rgba(255,107,53,.1);
+  text-shadow:0 0 12px rgba(255,107,53,.6);
+  box-shadow:0 0 12px rgba(255,107,53,.12);
+}
+.chip-ye{
+  color:#ffe135;border-color:rgba(255,225,53,.5);
+  background:rgba(255,225,53,.1);
+  text-shadow:0 0 12px rgba(255,225,53,.5);
+  box-shadow:0 0 12px rgba(255,225,53,.1);
+}
 
 /* ── STATS ── */
 .stats{
@@ -352,12 +384,7 @@ footer{
   border-top:1px solid var(--line);
   background:var(--bg2);
 }
-.footer-logo{
-  font-family:var(--disp);font-size:28px;letter-spacing:.15em;
-  background:linear-gradient(90deg,var(--pu3),var(--cy2));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-  margin-bottom:12px;
-}
+
 </style>
 </head>
 <body>
@@ -378,15 +405,15 @@ footer{
   <div class="hero-inner">
     <div class="hero-tag">OFFICIAL EVENT TRACKER</div>
     <div class="hero-h1">
-      <div class="line1">PUNKVISM</div>
+      <div class="hero-wordmark">PUNKVISM</div>
       <div class="line2">EVENTS</div>
     </div>
     <div class="hero-desc">펑크비즘 홀더를 위한 공식 이벤트 트래커.<br>당첨자 확인부터 에어드랍 현황까지 한눈에.</div>
     <div class="hero-chips">
       <span class="chip chip-pu">시민권 에어드랍</span>
       <span class="chip chip-cy">토큰 보상</span>
-      <span class="chip chip-wh">화이트리스트</span>
-      <span class="chip chip-wh">기타 혜택</span>
+      <span class="chip chip-or">화이트리스트</span>
+      <span class="chip chip-ye">기타 혜택</span>
     </div>
   </div>
 </div>
@@ -528,7 +555,7 @@ footer{
 </div>
 
 <footer>
-  <div class="footer-logo">PUNKVISM</div>
+  <img src="data:image/png;base64,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" alt="PUNKVISM" style="height:36px;width:auto;object-fit:contain;display:block;margin:0 auto 16px;opacity:0.85;">
   EVENT PLATFORM &nbsp;·&nbsp; BUILT FOR HOLDERS &nbsp;·&nbsp; POWERED BY GOOGLE SHEETS
 </footer>
 
