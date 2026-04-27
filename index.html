@@ -567,7 +567,7 @@ footer{
       <div><div class="pm">PUNK 토큰 5,000개</div><div class="ps">커뮤니티 기여 보상</div></div>
       <div class="pd">미정</div>
       <div><span class="badge bdone"><span class="bdot bddone"></span>DONE</span></div>
-    </div><div class="row" onclick="toggle('파트너십 WL 이벤트')" style="animation-delay:0.07s">
+    </div><div class="row sel" onclick="toggle('파트너십 WL 이벤트')" style="animation-delay:0.07s">
       <div style="display:flex;align-items:flex-start;gap:12px;">
         <span class="status-live status-off" style="margin-top:2px;flex-shrink:0;"><span class="live-dot live-dot-off"></span>종료</span>
         <div>
@@ -636,17 +636,43 @@ footer{
   </div>
 
   <!-- DETAIL -->
-  <div class="detail" id="detail">
+  <div class="detail on" id="detail">
     <div class="dhead">
       <div>
         <div class="dtag">// WINNER DETAILS</div>
-        <div class="dtitle" id="dtitle"></div>
+        <div class="dtitle" id="dtitle">파트너십 WL 이벤트</div>
       </div>
       <button class="dcls" onclick="closeD()">✕</button>
     </div>
     <div class="dbody">
-      <div class="dgrid" id="dgrid"></div>
-      <div class="dsum" id="dsum"></div>
+      <div class="dgrid" id="dgrid">
+    <div class="wcard">
+      <div class="wcn">// WINNER #01</div>
+      <div class="wcname">WLHunter01</div>
+      <div class="wcw">0x9c0d...1e2f</div>
+      <div style="font-size:12px;font-weight:500;color:var(--pu3);margin-bottom:12px;padding:6px 10px;background:rgba(124,58,237,0.1);border:1px solid rgba(124,58,237,0.25);border-radius:4px;">🎁 DegenPunk WL 10자리</div>
+      <span class="badge bdone">
+        <span class="bdot bddone"></span>
+        AIRDROP DONE
+      </span>
+    </div>
+    <div class="wcard">
+      <div class="wcn">// WINNER #02</div>
+      <div class="wcname">EarlyAdopter</div>
+      <div class="wcw">0x3g4h...5i6j</div>
+      <div style="font-size:12px;font-weight:500;color:var(--pu3);margin-bottom:12px;padding:6px 10px;background:rgba(124,58,237,0.1);border:1px solid rgba(124,58,237,0.25);border-radius:4px;">🎁 DegenPunk WL 10자리</div>
+      <span class="badge bdone">
+        <span class="bdot bddone"></span>
+        AIRDROP DONE
+      </span>
+    </div></div>
+      <div class="dsum" id="dsum">
+    <div class="ds">총 당첨자 <strong>2명</strong></div>
+    <div class="ds">완료 <strong style="color:var(--done)">2명</strong></div>
+    <div class="ds">대기 <strong style="color:var(--pend)">0명</strong></div>
+    <div class="ds">마감일 <strong>2025.03.05</strong></div>
+    <div class="ds">지급 예정일 <strong>미정</strong></div>
+    <div class="ds">상품 <strong>DegenPunk WL 10자리</strong></div></div>
     </div>
   </div>
 </div>
@@ -804,7 +830,7 @@ function proc(){
   const m={};
   rows.forEach(r=>{
     if(!m[r.eventName])m[r.eventName]={eventName:r.eventName,date:r.date,deadline:r.deadline,category:r.category,prize:r.prize,prizeDetail:r.prizeDetail,payDate:r.payDate,winners:[]};
-    m[r.eventName].winners.push({name:r.winner,wallet:r.wallet,airdrop:r.airdrop});
+    m[r.eventName].winners.push({name:r.winner,wallet:r.wallet,airdrop:r.airdrop,prize:r.prize});
   });
   grp=Object.values(m);stats();render();
 }
@@ -868,6 +894,7 @@ function toggle(name){
       <div class="wcn">// WINNER #${String(i+1).padStart(2,'0')}</div>
       <div class="wcname">${w.name}</div>
       <div class="wcw">${w.wallet}</div>
+      ${w.prize?`<div style="font-size:12px;font-weight:500;color:var(--pu3);margin-bottom:12px;padding:6px 10px;background:rgba(124,58,237,0.1);border:1px solid rgba(124,58,237,0.25);border-radius:4px;">🎁 ${w.prize}</div>`:''}
       <span class="badge ${w.airdrop==='완료'?'bdone':'bpend'}">
         <span class="bdot ${w.airdrop==='완료'?'bddone':'bdpend'}"></span>
         ${w.airdrop==='완료'?'AIRDROP DONE':'PENDING'}
