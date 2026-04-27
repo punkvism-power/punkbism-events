@@ -1,240 +1,272 @@
 <!DOCTYPE html>
-<html lang="ko">
-<head>
+<html lang="ko"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PUNKBISM — 이벤트 플랫폼</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&amp;family=Noto+Sans+KR:wght@300;400;500;700&amp;display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0a0a0a;
-    --bg2: #111111;
-    --bg3: #1a1a1a;
-    --border: rgba(255,255,255,0.08);
-    --border2: rgba(255,255,255,0.15);
-    --text: #f0f0f0;
-    --text2: #888;
-    --text3: #555;
-    --accent: #e8ff00;
-    --accent2: #ff6b35;
-    --nft: #a78bfa;
-    --token: #34d399;
-    --wl: #fb923c;
-    --etc: #94a3b8;
-    --done: #4ade80;
-    --pending: #facc15;
-    --mono: 'Space Mono', monospace;
-    --sans: 'Noto Sans KR', sans-serif;
+    --bg:      #0a0a0a;
+    --bg2:     #141414;
+    --bg3:     #1e1e1e;
+    --border:  rgba(255,255,255,0.1);
+    --border2: rgba(255,255,255,0.22);
+    --text:    #f5f5f5;
+    --text2:   #b0b0b0;
+    --text3:   #787878;
+    --accent:  #e8ff00;
+    --nft:     #c4b5fd;
+    --token:   #6ee7b7;
+    --wl:      #fdba74;
+    --etc:     #cbd5e1;
+    --done:    #86efac;
+    --pending: #fde047;
+    --mono:    'Space Mono', monospace;
+    --sans:    'Noto Sans KR', sans-serif;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--sans);
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 0;
-    opacity: 0.4;
-  }
+  body { background: var(--bg); color: var(--text); font-family: var(--sans); min-height: 100vh; overflow-x: hidden; font-size: 15px; }
+
   header {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background: rgba(10,10,10,0.92);
-    backdrop-filter: blur(20px);
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(10,10,10,0.95); backdrop-filter: blur(20px);
     border-bottom: 1px solid var(--border);
-    padding: 0 2rem;
-    height: 64px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    padding: 0 2.5rem; height: 72px;
+    display: flex; align-items: center; justify-content: space-between;
   }
-  .logo { display: flex; align-items: center; gap: 12px; }
+  .logo { display: flex; align-items: center; gap: 14px; }
   .logo-icon {
-    width: 32px; height: 32px;
-    background: var(--accent);
+    width: 38px; height: 38px; background: var(--accent);
     display: flex; align-items: center; justify-content: center;
-    font-family: var(--mono); font-size: 14px; font-weight: 700; color: #000;
+    font-family: var(--mono); font-size: 16px; font-weight: 700; color: #000;
     clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
   }
-  .logo-name { font-family: var(--mono); font-size: 15px; font-weight: 700; letter-spacing: 0.15em; color: var(--accent); }
-  .logo-sub { font-size: 11px; color: var(--text3); letter-spacing: 0.05em; margin-top: 1px; }
+  .logo-name {
+    font-family: var(--mono); font-size: 20px; font-weight: 700;
+    letter-spacing: 0.18em; color: var(--accent);
+    text-shadow: 0 0 20px rgba(232,255,0,0.4);
+    line-height: 1;
+  }
+  .logo-sub  {
+    font-family: var(--mono); font-size: 11px; color: var(--text2);
+    letter-spacing: 0.28em; margin-top: 5px;
+    text-transform: uppercase;
+    border-top: 1px solid rgba(255,255,255,0.12);
+    padding-top: 4px;
+  }
+  .logo-img  { height: 52px; width: auto; object-fit: contain; display: block; }
+  .logo-text-block { display: flex; flex-direction: column; justify-content: center; }
   .header-right { display: flex; align-items: center; gap: 12px; }
+  #lastSyncLabel { font-family: var(--mono); font-size: 12px; color: var(--text3); }
   .sync-btn {
-    display: flex; align-items: center; gap: 6px;
-    padding: 7px 14px; background: transparent;
-    border: 1px solid var(--border2); border-radius: 6px;
-    color: var(--text2); font-family: var(--mono); font-size: 11px;
-    cursor: pointer; transition: all 0.2s;
+    display: flex; align-items: center; gap: 7px;
+    padding: 9px 18px; background: transparent;
+    border: 1px solid var(--border2); border-radius: 7px;
+    color: var(--text2); font-family: var(--mono); font-size: 12px;
+    cursor: pointer; transition: all 0.2s; white-space: nowrap;
   }
   .sync-btn:hover { border-color: var(--accent); color: var(--accent); }
-  .sync-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--done); animation: pulse 2s infinite; }
-  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
-  .container { max-width: 1400px; margin: 0 auto; padding: 2rem; position: relative; z-index: 1; }
+  .sync-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--done); animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
+
+  .container { max-width: 1500px; margin: 0 auto; padding: 2.5rem; position: relative; z-index: 1; }
+
+  /* STATS */
   .stats-row {
-    display: grid; grid-template-columns: repeat(4, 1fr);
+    display: grid; grid-template-columns: repeat(4,1fr);
     gap: 1px; background: var(--border);
-    border: 1px solid var(--border); border-radius: 12px;
-    overflow: hidden; margin-bottom: 2rem;
+    border: 1px solid var(--border); border-radius: 14px;
+    overflow: hidden; margin-bottom: 2.5rem;
   }
-  .stat-box { background: var(--bg2); padding: 1.5rem; transition: background 0.2s; }
+  .stat-box { background: var(--bg2); padding: 2rem 1.75rem; transition: background 0.2s; }
   .stat-box:hover { background: var(--bg3); }
-  .stat-label { font-size: 10px; font-family: var(--mono); color: var(--text3); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 10px; }
-  .stat-num { font-size: 36px; font-family: var(--mono); font-weight: 700; line-height: 1; margin-bottom: 4px; }
-  .stat-hint { font-size: 11px; color: var(--text3); }
-  .toolbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; gap: 1rem; flex-wrap: wrap; }
-  .filter-group { display: flex; gap: 6px; }
+  .stat-label { font-family: var(--mono); font-size: 12px; color: var(--text3); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 14px; }
+  .stat-num  { font-family: var(--mono); font-size: 44px; font-weight: 700; line-height: 1; margin-bottom: 8px; }
+  .stat-hint { font-size: 14px; color: var(--text2); }
+
+  /* TOOLBAR */
+  .toolbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; gap: 1rem; flex-wrap: wrap; }
+  .filter-group { display: flex; gap: 8px; flex-wrap: wrap; }
   .filter-btn {
-    padding: 7px 16px; border-radius: 4px; border: 1px solid var(--border);
-    background: transparent; color: var(--text2); font-family: var(--mono);
-    font-size: 11px; cursor: pointer; transition: all 0.15s; letter-spacing: 0.05em;
+    padding: 10px 20px; border-radius: 6px;
+    border: 1px solid var(--border2); background: transparent;
+    color: var(--text2); font-family: var(--mono); font-size: 13px;
+    cursor: pointer; transition: all 0.15s; letter-spacing: 0.04em;
   }
-  .filter-btn:hover { border-color: var(--border2); color: var(--text); }
-  .filter-btn.active-all { border-color: var(--accent); color: var(--accent); background: rgba(232,255,0,0.05); }
-  .filter-btn.active-NFT { border-color: var(--nft); color: var(--nft); background: rgba(167,139,250,0.06); }
-  .filter-btn.active-토큰 { border-color: var(--token); color: var(--token); background: rgba(52,211,153,0.06); }
-  .filter-btn.active-화이트리스트 { border-color: var(--wl); color: var(--wl); background: rgba(251,146,60,0.06); }
-  .filter-btn.active-기타 { border-color: var(--etc); color: var(--etc); background: rgba(148,163,184,0.06); }
+  .filter-btn:hover { color: var(--text); border-color: rgba(255,255,255,0.35); }
+  .filter-btn.active-all          { border-color: var(--accent);  color: var(--accent);  background: rgba(232,255,0,0.06); }
+  .filter-btn.active-NFT          { border-color: var(--nft);     color: var(--nft);     background: rgba(196,181,253,0.08); }
+  .filter-btn.active-토큰         { border-color: var(--token);   color: var(--token);   background: rgba(110,231,183,0.08); }
+  .filter-btn.active-화이트리스트 { border-color: var(--wl);      color: var(--wl);      background: rgba(253,186,116,0.08); }
+  .filter-btn.active-기타         { border-color: var(--etc);     color: var(--etc);     background: rgba(203,213,225,0.08); }
   .search-box {
-    display: flex; align-items: center; gap: 8px;
-    background: var(--bg2); border: 1px solid var(--border);
-    border-radius: 6px; padding: 7px 12px; flex: 1; max-width: 360px;
+    display: flex; align-items: center; gap: 10px;
+    background: var(--bg2); border: 1px solid var(--border2);
+    border-radius: 8px; padding: 10px 16px; flex: 1; max-width: 420px;
   }
-  .search-box:focus-within { border-color: var(--border2); }
-  .search-icon { color: var(--text3); font-size: 13px; flex-shrink: 0; }
-  .search-box input { background: transparent; border: none; outline: none; color: var(--text); font-family: var(--sans); font-size: 13px; width: 100%; }
+  .search-box:focus-within { border-color: rgba(255,255,255,0.35); }
+  .search-icon { color: var(--text3); font-size: 15px; flex-shrink: 0; }
+  .search-box input { background: transparent; border: none; outline: none; color: var(--text); font-family: var(--sans); font-size: 14px; width: 100%; }
   .search-box input::placeholder { color: var(--text3); }
-  .table-wrap { border: 1px solid var(--border); border-radius: 12px; overflow: hidden; background: var(--bg2); }
+
+  /* TABLE */
+  .table-wrap { border: 1px solid var(--border); border-radius: 14px; overflow: hidden; background: var(--bg2); }
   .table-head {
-    display: grid; grid-template-columns: 2.2fr 1fr 1.6fr 1.6fr 1.1fr 0.9fr;
-    padding: 12px 20px; background: var(--bg3); border-bottom: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: 2.8fr 0.9fr 1.5fr 1.5fr 1.1fr 1fr;
+    padding: 16px 28px;
+    background: var(--bg3);
+    border-bottom: 1px solid var(--border2);
+    gap: 0 16px;
   }
-  .th { font-family: var(--mono); font-size: 10px; color: var(--text3); letter-spacing: 0.1em; text-transform: uppercase; }
+  .th { font-family: var(--mono); font-size: 12px; color: var(--text2); letter-spacing: 0.08em; text-transform: uppercase; }
   .event-row {
-    display: grid; grid-template-columns: 2.2fr 1fr 1.6fr 1.6fr 1.1fr 0.9fr;
-    padding: 16px 20px; border-bottom: 1px solid var(--border);
-    align-items: center; cursor: pointer; transition: background 0.1s;
+    display: grid;
+    grid-template-columns: 2.8fr 0.9fr 1.5fr 1.5fr 1.1fr 1fr;
+    padding: 22px 28px;
+    border-bottom: 1px solid var(--border);
+    align-items: center; cursor: pointer;
+    transition: background 0.12s;
     animation: fadeIn 0.3s ease both;
+    gap: 0 16px;
   }
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);} }
   .event-row:last-child { border-bottom: none; }
   .event-row:hover { background: var(--bg3); }
-  .event-row.selected { background: rgba(232,255,0,0.03); border-left: 2px solid var(--accent); padding-left: 18px; }
-  .event-name { font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 3px; }
-  .event-date { font-family: var(--mono); font-size: 10px; color: var(--text3); }
+  .event-row.selected { background: rgba(232,255,0,0.03); border-left: 3px solid var(--accent); padding-left: 25px; }
+
+  .event-name { font-size: 15px; font-weight: 500; color: var(--text); margin-bottom: 6px; line-height: 1.45; }
+  .event-date { font-family: var(--mono); font-size: 12px; color: var(--text3); }
+
   .cat-pill {
     display: inline-flex; align-items: center;
-    padding: 5px 12px; border-radius: 4px;
-    font-family: var(--sans); font-size: 13px; font-weight: 700;
-    letter-spacing: 0.02em; border: 1px solid;
+    padding: 7px 14px; border-radius: 5px;
+    font-family: var(--sans); font-size: 14px; font-weight: 700;
+    border: 1px solid; white-space: nowrap;
   }
-  .cat-NFT { color: var(--nft); border-color: rgba(167,139,250,0.3); background: rgba(167,139,250,0.07); }
-  .cat-토큰 { color: var(--token); border-color: rgba(52,211,153,0.3); background: rgba(52,211,153,0.07); }
-  .cat-화이트리스트 { color: var(--wl); border-color: rgba(251,146,60,0.3); background: rgba(251,146,60,0.07); }
-  .cat-기타 { color: var(--etc); border-color: rgba(148,163,184,0.3); background: rgba(148,163,184,0.07); }
-  .winner-name { font-size: 12px; font-weight: 500; color: var(--text); margin-bottom: 2px; }
-  .winner-count { font-family: var(--mono); font-size: 10px; color: var(--text3); }
-  .prize-main { font-size: 12px; color: var(--text); margin-bottom: 2px; }
-  .prize-sub { font-size: 10px; color: var(--text3); }
-  .pay-date { font-family: var(--mono); font-size: 11px; color: var(--text2); }
-  .status-pill { display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 3px; font-family: var(--mono); font-size: 10px; font-weight: 700; }
-  .s-done { background: rgba(74,222,128,0.1); color: var(--done); border: 1px solid rgba(74,222,128,0.25); }
-  .s-pending { background: rgba(250,204,21,0.1); color: var(--pending); border: 1px solid rgba(250,204,21,0.25); }
-  .status-dot { width: 5px; height: 5px; border-radius: 50%; }
-  .dot-done { background: var(--done); }
+  .cat-NFT          { color: var(--nft);   border-color: rgba(196,181,253,0.4); background: rgba(196,181,253,0.1); }
+  .cat-토큰         { color: var(--token); border-color: rgba(110,231,183,0.4); background: rgba(110,231,183,0.1); }
+  .cat-화이트리스트 { color: var(--wl);    border-color: rgba(253,186,116,0.4); background: rgba(253,186,116,0.1); }
+  .cat-기타         { color: var(--etc);   border-color: rgba(203,213,225,0.4); background: rgba(203,213,225,0.1); }
+
+  .winner-name  { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 5px; }
+  .winner-count { font-family: var(--mono); font-size: 12px; color: var(--text2); }
+
+  .prize-main { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 5px; }
+  .prize-sub  { font-size: 13px; color: var(--text2); }
+
+  .pay-date { font-family: var(--mono); font-size: 13px; color: var(--text2); }
+
+  .status-pill {
+    display: inline-flex; align-items: center; gap: 7px;
+    padding: 7px 14px; border-radius: 5px;
+    font-family: var(--mono); font-size: 12px; font-weight: 700; white-space: nowrap;
+  }
+  .s-done    { background: rgba(134,239,172,0.12); color: var(--done);    border: 1px solid rgba(134,239,172,0.3); }
+  .s-pending { background: rgba(253,224,71,0.12);  color: var(--pending); border: 1px solid rgba(253,224,71,0.3); }
+  .status-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+  .dot-done    { background: var(--done); }
   .dot-pending { background: var(--pending); animation: pulse 1.5s infinite; }
-  .detail-wrap { margin-top: 1.5rem; border: 1px solid var(--border2); border-radius: 12px; overflow: hidden; background: var(--bg2); display: none; }
+
+  /* DETAIL */
+  .detail-wrap { margin-top: 1.75rem; border: 1px solid var(--border2); border-radius: 14px; overflow: hidden; background: var(--bg2); display: none; }
   .detail-wrap.open { display: block; animation: slideDown 0.25s ease; }
-  @keyframes slideDown { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
-  .detail-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; background: var(--bg3); border-bottom: 1px solid var(--border); }
-  .detail-title { font-family: var(--mono); font-size: 12px; color: var(--accent); letter-spacing: 0.08em; }
-  .detail-event-name { font-size: 15px; font-weight: 500; color: var(--text); margin-top: 3px; }
-  .close-btn { background: none; border: 1px solid var(--border); width: 28px; height: 28px; border-radius: 4px; color: var(--text3); font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
-  .close-btn:hover { border-color: var(--border2); color: var(--text); }
-  .detail-body { padding: 20px; }
-  .winners-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px; margin-bottom: 1.25rem; }
-  .winner-card { background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; padding: 14px; transition: border-color 0.15s; }
+  @keyframes slideDown { from{opacity:0;transform:translateY(-8px);}to{opacity:1;transform:translateY(0);} }
+  .detail-header { display: flex; align-items: center; justify-content: space-between; padding: 22px 28px; background: var(--bg3); border-bottom: 1px solid var(--border); }
+  .detail-title      { font-family: var(--mono); font-size: 13px; color: var(--accent); letter-spacing: 0.08em; }
+  .detail-event-name { font-size: 18px; font-weight: 500; color: var(--text); margin-top: 5px; }
+  .close-btn { background: none; border: 1px solid var(--border2); width: 36px; height: 36px; border-radius: 6px; color: var(--text2); font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
+  .close-btn:hover { border-color: var(--text); color: var(--text); }
+  .detail-body { padding: 24px 28px; }
+  .winners-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 14px; margin-bottom: 1.5rem; }
+  .winner-card { background: var(--bg3); border: 1px solid var(--border); border-radius: 10px; padding: 20px; transition: border-color 0.15s; }
   .winner-card:hover { border-color: var(--border2); }
-  .wc-rank { font-family: var(--mono); font-size: 9px; color: var(--text3); letter-spacing: 0.1em; margin-bottom: 6px; }
-  .wc-name { font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 4px; }
-  .wc-wallet { font-family: var(--mono); font-size: 10px; color: var(--text2); margin-bottom: 10px; word-break: break-all; }
-  .detail-summary { display: flex; gap: 24px; padding: 14px 0; border-top: 1px solid var(--border); flex-wrap: wrap; }
-  .ds-item { font-size: 12px; color: var(--text3); }
-  .ds-item strong { color: var(--text); font-weight: 500; }
-  .state-box { padding: 4rem 2rem; text-align: center; color: var(--text3); font-family: var(--mono); font-size: 12px; }
-  .state-box .big { font-size: 32px; margin-bottom: 12px; }
-  .setup-banner { background: linear-gradient(135deg, rgba(232,255,0,0.05), transparent); border: 1px solid rgba(232,255,0,0.2); border-radius: 10px; padding: 1.25rem 1.5rem; margin-bottom: 1.5rem; display: none; }
+  .wc-rank   { font-family: var(--mono); font-size: 11px; color: var(--text3); letter-spacing: 0.1em; margin-bottom: 10px; }
+  .wc-name   { font-size: 16px; font-weight: 500; color: var(--text); margin-bottom: 8px; }
+  .wc-wallet { font-family: var(--mono); font-size: 12px; color: var(--text2); margin-bottom: 14px; word-break: break-all; line-height: 1.6; }
+  .detail-summary { display: flex; gap: 36px; padding: 20px 0; border-top: 1px solid var(--border); flex-wrap: wrap; }
+  .ds-item { font-size: 14px; color: var(--text3); }
+  .ds-item strong { color: var(--text); font-weight: 500; font-size: 15px; }
+
+  /* EMPTY / SETUP */
+  .state-box { padding: 5rem 2rem; text-align: center; color: var(--text3); font-family: var(--mono); font-size: 14px; line-height: 1.8; }
+  .state-box .big { font-size: 40px; margin-bottom: 16px; }
+  .setup-banner { background: linear-gradient(135deg, rgba(232,255,0,0.05), transparent); border: 1px solid rgba(232,255,0,0.2); border-radius: 12px; padding: 1.5rem 1.75rem; margin-bottom: 1.75rem; display: none; }
   .setup-banner.show { display: block; }
-  .setup-title { font-family: var(--mono); font-size: 12px; color: var(--accent); margin-bottom: 8px; letter-spacing: 0.08em; }
-  .setup-text { font-size: 13px; color: var(--text2); line-height: 1.6; }
-  .setup-text code { font-family: var(--mono); font-size: 11px; background: rgba(255,255,255,0.07); padding: 2px 6px; border-radius: 3px; color: var(--accent); }
-  .sheet-input-row { display: flex; gap: 8px; margin-top: 12px; }
-  .sheet-input-row input { flex: 1; padding: 8px 12px; background: var(--bg3); border: 1px solid var(--border2); border-radius: 6px; color: var(--text); font-family: var(--mono); font-size: 11px; outline: none; }
+  .setup-title { font-family: var(--mono); font-size: 13px; color: var(--accent); margin-bottom: 10px; letter-spacing: 0.08em; }
+  .setup-text { font-size: 14px; color: var(--text2); line-height: 1.8; }
+  .setup-text code { font-family: var(--mono); font-size: 12px; background: rgba(255,255,255,0.08); padding: 2px 7px; border-radius: 4px; color: var(--accent); }
+  .sheet-input-row { display: flex; gap: 10px; margin-top: 14px; }
+  .sheet-input-row input { flex: 1; padding: 11px 14px; background: var(--bg3); border: 1px solid var(--border2); border-radius: 7px; color: var(--text); font-family: var(--mono); font-size: 12px; outline: none; }
   .sheet-input-row input:focus { border-color: var(--accent); }
-  .connect-btn { padding: 8px 16px; background: var(--accent); color: #000; border: none; border-radius: 6px; font-family: var(--mono); font-size: 11px; font-weight: 700; cursor: pointer; transition: opacity 0.15s; white-space: nowrap; }
+  .connect-btn { padding: 11px 22px; background: var(--accent); color: #000; border: none; border-radius: 7px; font-family: var(--mono); font-size: 12px; font-weight: 700; cursor: pointer; transition: opacity 0.15s; white-space: nowrap; }
   .connect-btn:hover { opacity: 0.85; }
-  footer { text-align: center; padding: 2rem; color: var(--text3); font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em; border-top: 1px solid var(--border); margin-top: 3rem; }
+
+  .download-btn {
+    display: flex; align-items: center; gap: 7px;
+    padding: 9px 18px; background: var(--accent);
+    border: none; border-radius: 7px;
+    color: #000; font-family: var(--mono); font-size: 12px; font-weight: 700;
+    cursor: pointer; transition: opacity 0.15s; white-space: nowrap; text-decoration: none;
+  }
+  .download-btn:hover { opacity: 0.85; }
+  footer { text-align: center; padding: 2.5rem; color: var(--text3); font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; border-top: 1px solid var(--border); margin-top: 4rem; }
 </style>
 </head>
 <body>
+
 <header>
   <div class="logo">
-    <div class="logo-icon">P</div>
-    <div>
-      <div class="logo-name">PUNKBISM</div>
-      <div class="logo-sub">EVENT PLATFORM</div>
-    </div>
+    <img src="data:image/png;base64,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" alt="PUNKBISM" class="logo-img">
   </div>
+  
   <div class="header-right">
-    <span id="lastSyncLabel" style="font-family:var(--mono);font-size:10px;color:var(--text3);"></span>
+    <span id="lastSyncLabel">SAMPLE DATA</span>
     <button class="sync-btn" onclick="loadData()"><span class="sync-dot"></span>SYNC</button>
-    <button class="sync-btn" onclick="toggleSetup()" style="border-color:rgba(232,255,0,0.3);color:var(--accent);">⚙ SHEET 설정</button>
+    <button class="sync-btn" onclick="toggleSetup()" style="border-color:rgba(232,255,0,0.35);color:var(--accent);">⚙ SHEET 설정</button>
+    <button class="download-btn" onclick="downloadHTML()">⬇ 다운로드</button>
   </div>
 </header>
+
 <div class="container">
+
   <div class="setup-banner" id="setupBanner">
     <div class="setup-title">// GOOGLE SHEET 연동 설정</div>
     <div class="setup-text">
       구글시트를 아래 형식으로 만든 후, <strong>파일 → 웹에 게시 → CSV</strong>로 발행하세요.<br>
-      시트 컬럼 순서: <code>이벤트명</code> <code>날짜</code> <code>카테고리</code> <code>당첨자닉네임</code> <code>지갑주소</code> <code>당첨상품</code> <code>상품설명</code> <code>지급날짜</code> <code>에어드랍</code><br>
-      카테고리는 <code>NFT</code> / <code>토큰</code> / <code>화이트리스트</code> / <code>기타</code> 중 하나로 입력하세요.<br>
-      에어드랍은 <code>완료</code> 또는 <code>대기</code>로 입력하세요.
+      컬럼 순서: <code>이벤트명</code> <code>날짜</code> <code>카테고리</code> <code>당첨자닉네임</code> <code>지갑주소</code> <code>당첨상품</code> <code>상품설명</code> <code>지급날짜</code> <code>에어드랍</code><br>
+      카테고리: <code>NFT</code> / <code>토큰</code> / <code>화이트리스트</code> / <code>기타</code> &nbsp;|&nbsp; 에어드랍: <code>완료</code> 또는 <code>대기</code>
     </div>
     <div class="sheet-input-row">
-      <input type="text" id="sheetUrlInput" placeholder="게시된 구글시트 CSV URL을 붙여넣으세요" />
+      <input type="text" id="sheetUrlInput" placeholder="게시된 구글시트 CSV URL을 붙여넣으세요 (https://docs.google.com/spreadsheets/.../pub?output=csv)">
       <button class="connect-btn" onclick="saveSheetUrl()">연결</button>
     </div>
   </div>
+
   <div class="stats-row">
     <div class="stat-box">
       <div class="stat-label">// TOTAL EVENTS</div>
-      <div class="stat-num" id="sTotalEvents" style="color:var(--accent);">—</div>
+      <div class="stat-num" id="sTotalEvents" style="color:var(--accent);">7</div>
       <div class="stat-hint">누적 이벤트 수</div>
     </div>
     <div class="stat-box">
       <div class="stat-label">// AIRDROP DONE</div>
-      <div class="stat-num" id="sDone" style="color:var(--done);">—</div>
+      <div class="stat-num" id="sDone" style="color:var(--done);">4</div>
       <div class="stat-hint">에어드랍 완료</div>
     </div>
     <div class="stat-box">
       <div class="stat-label">// PENDING</div>
-      <div class="stat-num" id="sPending" style="color:var(--pending);">—</div>
+      <div class="stat-num" id="sPending" style="color:var(--pending);">3</div>
       <div class="stat-hint">지급 대기 중</div>
     </div>
     <div class="stat-box">
       <div class="stat-label">// TOTAL WINNERS</div>
-      <div class="stat-num" id="sWinners" style="color:var(--text);">—</div>
+      <div class="stat-num" id="sWinners" style="color:var(--text);">13</div>
       <div class="stat-hint">전체 당첨자 수</div>
     </div>
   </div>
+
   <div class="toolbar">
     <div class="filter-group">
       <button class="filter-btn active-all" id="btn-전체" onclick="setFilter('전체')">전체</button>
@@ -248,6 +280,7 @@
       <input type="text" id="searchInput" placeholder="이벤트명 / 닉네임 / 지갑주소 검색..." oninput="renderTable()">
     </div>
   </div>
+
   <div class="table-wrap">
     <div class="table-head">
       <div class="th">이벤트명</div>
@@ -257,10 +290,58 @@
       <div class="th">지급 날짜</div>
       <div class="th">에어드랍</div>
     </div>
-    <div id="eventList">
-      <div class="state-box"><div class="big">⚡</div>구글시트를 연결하거나 SYNC를 눌러 데이터를 불러오세요.</div>
-    </div>
+    <div id="eventList"><div class="event-row" onclick="toggleDetail('Genesis Punk 에어드랍')}" style="animation-delay:0s">
+      <div><div class="event-name">Genesis Punk 에어드랍</div><div class="event-date">2025.01.15</div></div>
+      <div><span class="cat-pill cat-NFT">NFT</span></div>
+      <div><div class="winner-name">PunkHolder_A</div><div class="winner-count">3명 당첨 외 2명</div></div>
+      <div><div class="prize-main">Genesis Punk #001~#005</div><div class="prize-sub">한정판 Genesis 시리즈 5종</div></div>
+      <div class="pay-date">2025.01.20</div>
+      <div><span class="status-pill s-done"><span class="status-dot dot-done"></span>DONE</span></div>
+    </div><div class="event-row" onclick="toggleDetail('커뮤니티 보상 이벤트')}" style="animation-delay:0.04s">
+      <div><div class="event-name">커뮤니티 보상 이벤트</div><div class="event-date">2025.02.10</div></div>
+      <div><span class="cat-pill cat-토큰">토큰</span></div>
+      <div><div class="winner-name">ActivePunk</div><div class="winner-count">2명 당첨 외 1명</div></div>
+      <div><div class="prize-main">PUNK 토큰 5,000개</div><div class="prize-sub">커뮤니티 기여 보상</div></div>
+      <div class="pay-date">2025.02.14</div>
+      <div><span class="status-pill s-done"><span class="status-dot dot-done"></span>DONE</span></div>
+    </div><div class="event-row" onclick="toggleDetail('파트너십 WL 이벤트')}" style="animation-delay:0.08s">
+      <div><div class="event-name">파트너십 WL 이벤트</div><div class="event-date">2025.02.28</div></div>
+      <div><span class="cat-pill cat-화이트리스트">화이트리스트</span></div>
+      <div><div class="winner-name">WLHunter01</div><div class="winner-count">2명 당첨 외 1명</div></div>
+      <div><div class="prize-main">DegenPunk WL 10자리</div><div class="prize-sub">파트너 프로젝트 민트 WL</div></div>
+      <div class="pay-date">2025.03.05</div>
+      <div><span class="status-pill s-done"><span class="status-dot dot-done"></span>DONE</span></div>
+    </div><div class="event-row" onclick="toggleDetail('SNS 공유 이벤트')}" style="animation-delay:0.12s">
+      <div><div class="event-name">SNS 공유 이벤트</div><div class="event-date">2025.03.15</div></div>
+      <div><span class="cat-pill cat-기타">기타</span></div>
+      <div><div class="winner-name">PunkTwitter</div><div class="winner-count">1명 당첨</div></div>
+      <div><div class="prize-main">굿즈 패키지</div><div class="prize-sub">후드+스티커 세트</div></div>
+      <div class="pay-date">2025.03.25</div>
+      <div><span class="status-pill s-done"><span class="status-dot dot-done"></span>DONE</span></div>
+    </div><div class="event-row" onclick="toggleDetail('2주년 기념 스페셜 NFT')}" style="animation-delay:0.16s">
+      <div><div class="event-name">2주년 기념 스페셜 NFT</div><div class="event-date">2025.04.01</div></div>
+      <div><span class="cat-pill cat-NFT">NFT</span></div>
+      <div><div class="winner-name">OGPunkHolder</div><div class="winner-count">2명 당첨 외 1명</div></div>
+      <div><div class="prize-main">Anniversary Punk NFT</div><div class="prize-sub">2주년 한정 기념 NFT 3종</div></div>
+      <div class="pay-date">2025.04.10</div>
+      <div><span class="status-pill s-pending"><span class="status-dot dot-pending"></span>PENDING</span></div>
+    </div><div class="event-row" onclick="toggleDetail('거버넌스 참여 토큰 보상')}" style="animation-delay:0.2s">
+      <div><div class="event-name">거버넌스 참여 토큰 보상</div><div class="event-date">2025.04.05</div></div>
+      <div><span class="cat-pill cat-토큰">토큰</span></div>
+      <div><div class="winner-name">VotePunk</div><div class="winner-count">2명 당첨 외 1명</div></div>
+      <div><div class="prize-main">PUNK 토큰 10,000개</div><div class="prize-sub">DAO 투표 참여 보상</div></div>
+      <div class="pay-date">2025.04.15</div>
+      <div><span class="status-pill s-pending"><span class="status-dot dot-pending"></span>PENDING</span></div>
+    </div><div class="event-row" onclick="toggleDetail('콜라보 WL 추첨')}" style="animation-delay:0.24s">
+      <div><div class="event-name">콜라보 WL 추첨</div><div class="event-date">2025.04.12</div></div>
+      <div><span class="cat-pill cat-화이트리스트">화이트리스트</span></div>
+      <div><div class="winner-name">Collab_Fan</div><div class="winner-count">1명 당첨</div></div>
+      <div><div class="prize-main">CyberPunk Collab WL</div><div class="prize-sub">콜라보 민트 우선 참여권</div></div>
+      <div class="pay-date">2025.04.20</div>
+      <div><span class="status-pill s-pending"><span class="status-dot dot-pending"></span>PENDING</span></div>
+    </div></div>
   </div>
+
   <div class="detail-wrap" id="detailPanel">
     <div class="detail-header">
       <div>
@@ -274,41 +355,59 @@
       <div class="detail-summary" id="detailSummary"></div>
     </div>
   </div>
+
 </div>
+
 <footer>PUNKBISM EVENT PLATFORM — BUILT FOR HOLDERS — DATA POWERED BY GOOGLE SHEETS</footer>
+
 <script>
 const SAMPLE_DATA = [
   { eventName:"Genesis Punk 에어드랍", date:"2025.01.15", category:"NFT", winner:"PunkHolder_A", wallet:"0x1a2b...3c4d", prize:"Genesis Punk #001~#005", prizeDetail:"한정판 Genesis 시리즈 5종", payDate:"2025.01.20", airdrop:"완료" },
   { eventName:"Genesis Punk 에어드랍", date:"2025.01.15", category:"NFT", winner:"CryptoKing99", wallet:"0x5e6f...7g8h", prize:"Genesis Punk #001~#005", prizeDetail:"한정판 Genesis 시리즈 5종", payDate:"2025.01.20", airdrop:"완료" },
+  { eventName:"Genesis Punk 에어드랍", date:"2025.01.15", category:"NFT", winner:"NFTWatcher", wallet:"0x9i0j...1k2l", prize:"Genesis Punk #001~#005", prizeDetail:"한정판 Genesis 시리즈 5종", payDate:"2025.01.20", airdrop:"완료" },
   { eventName:"커뮤니티 보상 이벤트", date:"2025.02.10", category:"토큰", winner:"ActivePunk", wallet:"0x3m4n...5o6p", prize:"PUNK 토큰 5,000개", prizeDetail:"커뮤니티 기여 보상", payDate:"2025.02.14", airdrop:"완료" },
+  { eventName:"커뮤니티 보상 이벤트", date:"2025.02.10", category:"토큰", winner:"PunkFan2024", wallet:"0x7q8r...9s0t", prize:"PUNK 토큰 5,000개", prizeDetail:"커뮤니티 기여 보상", payDate:"2025.02.14", airdrop:"완료" },
   { eventName:"파트너십 WL 이벤트", date:"2025.02.28", category:"화이트리스트", winner:"WLHunter01", wallet:"0x9c0d...1e2f", prize:"DegenPunk WL 10자리", prizeDetail:"파트너 프로젝트 민트 WL", payDate:"2025.03.05", airdrop:"완료" },
+  { eventName:"파트너십 WL 이벤트", date:"2025.02.28", category:"화이트리스트", winner:"EarlyAdopter", wallet:"0x3g4h...5i6j", prize:"DegenPunk WL 10자리", prizeDetail:"파트너 프로젝트 민트 WL", payDate:"2025.03.05", airdrop:"완료" },
+  { eventName:"SNS 공유 이벤트", date:"2025.03.15", category:"기타", winner:"PunkTwitter", wallet:"0x1o2p...3q4r", prize:"굿즈 패키지", prizeDetail:"후드+스티커 세트", payDate:"2025.03.25", airdrop:"완료" },
   { eventName:"2주년 기념 스페셜 NFT", date:"2025.04.01", category:"NFT", winner:"OGPunkHolder", wallet:"0x9w0x...1y2z", prize:"Anniversary Punk NFT", prizeDetail:"2주년 한정 기념 NFT 3종", payDate:"2025.04.10", airdrop:"대기" },
+  { eventName:"2주년 기념 스페셜 NFT", date:"2025.04.01", category:"NFT", winner:"Diamond_Punk", wallet:"0x3a4b...5c6d", prize:"Anniversary Punk NFT", prizeDetail:"2주년 한정 기념 NFT 3종", payDate:"2025.04.10", airdrop:"대기" },
   { eventName:"거버넌스 참여 토큰 보상", date:"2025.04.05", category:"토큰", winner:"VotePunk", wallet:"0x1i2j...3k4l", prize:"PUNK 토큰 10,000개", prizeDetail:"DAO 투표 참여 보상", payDate:"2025.04.15", airdrop:"대기" },
+  { eventName:"거버넌스 참여 토큰 보상", date:"2025.04.05", category:"토큰", winner:"GovParticipant", wallet:"0x5m6n...7o8p", prize:"PUNK 토큰 10,000개", prizeDetail:"DAO 투표 참여 보상", payDate:"2025.04.15", airdrop:"대기" },
   { eventName:"콜라보 WL 추첨", date:"2025.04.12", category:"화이트리스트", winner:"Collab_Fan", wallet:"0x7y8z...9a0b", prize:"CyberPunk Collab WL", prizeDetail:"콜라보 민트 우선 참여권", payDate:"2025.04.20", airdrop:"대기" },
 ];
+
 let allRows = [], grouped = [], currentFilter = '전체', selectedEventName = null;
 let sheetUrl = localStorage.getItem('punkbism_sheet_url') || '';
+
 window.addEventListener('DOMContentLoaded', () => {
   if (sheetUrl) { document.getElementById('sheetUrlInput').value = sheetUrl; loadData(); }
   else { useSample(); }
 });
-function useSample() { allRows = SAMPLE_DATA; processData(); document.getElementById('lastSyncLabel').textContent = 'SAMPLE DATA'; }
+
+function useSample() {
+  allRows = SAMPLE_DATA; processData();
+  document.getElementById('lastSyncLabel').textContent = 'SAMPLE DATA';
+}
+
 async function loadData() {
   if (!sheetUrl) { useSample(); return; }
   document.getElementById('lastSyncLabel').textContent = 'SYNCING...';
   try {
     const res = await fetch(sheetUrl);
-    if (!res.ok) throw new Error('fetch failed');
+    if (!res.ok) throw new Error('failed');
     const csv = await res.text();
     allRows = parseCSV(csv);
     const now = new Date();
-    document.getElementById('lastSyncLabel').textContent = 'SYNCED ' + now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0');
+    document.getElementById('lastSyncLabel').textContent =
+      'SYNCED ' + now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0');
     processData();
   } catch(e) {
     document.getElementById('lastSyncLabel').textContent = 'SYNC FAILED';
     if (allRows.length === 0) useSample();
   }
 }
+
 function parseCSVLine(line) {
   const result = []; let cur = ''; let inQuote = false;
   for (let i = 0; i < line.length; i++) {
@@ -321,92 +420,106 @@ function parseCSVLine(line) {
   }
   result.push(cur.trim()); return result;
 }
+
 function parseCSV(csv) {
   const lines = csv.trim().split('\n');
   if (lines.length < 2) return [];
   return lines.slice(1).map(line => {
-    const cols = parseCSVLine(line);
-    return { eventName: cols[0]||'', date: cols[1]||'', category: cols[2]||'기타', winner: cols[3]||'', wallet: cols[4]||'', prize: cols[5]||'', prizeDetail: cols[6]||'', payDate: cols[7]||'', airdrop: cols[8]||'대기' };
+    const c = parseCSVLine(line);
+    return { eventName:c[0]||'', date:c[1]||'', category:c[2]||'기타', winner:c[3]||'', wallet:c[4]||'', prize:c[5]||'', prizeDetail:c[6]||'', payDate:c[7]||'', airdrop:c[8]||'대기' };
   }).filter(r => r.eventName);
 }
+
 function processData() {
   const map = {};
   allRows.forEach(r => {
-    if (!map[r.eventName]) map[r.eventName] = { eventName: r.eventName, date: r.date, category: r.category, prize: r.prize, prizeDetail: r.prizeDetail, payDate: r.payDate, winners: [] };
-    map[r.eventName].winners.push({ name: r.winner, wallet: r.wallet, airdrop: r.airdrop });
+    if (!map[r.eventName]) map[r.eventName] = { eventName:r.eventName, date:r.date, category:r.category, prize:r.prize, prizeDetail:r.prizeDetail, payDate:r.payDate, winners:[] };
+    map[r.eventName].winners.push({ name:r.winner, wallet:r.wallet, airdrop:r.airdrop });
   });
   grouped = Object.values(map); updateStats(); renderTable();
 }
+
 function updateStats() {
-  const visible = filteredEvents();
-  document.getElementById('sTotalEvents').textContent = visible.length;
-  document.getElementById('sDone').textContent = visible.filter(e => e.winners.every(w => w.airdrop === '완료')).length;
-  document.getElementById('sPending').textContent = visible.filter(e => e.winners.some(w => w.airdrop !== '완료')).length;
-  document.getElementById('sWinners').textContent = visible.reduce((s, e) => s + e.winners.length, 0);
+  const v = filteredEvents();
+  document.getElementById('sTotalEvents').textContent = v.length;
+  document.getElementById('sDone').textContent    = v.filter(e => e.winners.every(w => w.airdrop === '완료')).length;
+  document.getElementById('sPending').textContent = v.filter(e => e.winners.some(w => w.airdrop !== '완료')).length;
+  document.getElementById('sWinners').textContent = v.reduce((s,e) => s + e.winners.length, 0);
 }
+
 function setFilter(cat) {
   currentFilter = cat;
   ['전체','NFT','토큰','화이트리스트','기타'].forEach(c => {
-    const btn = document.getElementById('btn-' + c);
-    btn.className = c === cat ? 'filter-btn active-' + cat : 'filter-btn';
+    document.getElementById('btn-'+c).className = c === cat ? 'filter-btn active-'+cat : 'filter-btn';
   });
   closeDetail(); updateStats(); renderTable();
 }
+
 function filteredEvents() {
   const q = (document.getElementById('searchInput')?.value || '').toLowerCase();
   return grouped.filter(e => {
-    const matchCat = currentFilter === '전체' || e.category === currentFilter;
-    const matchQ = !q || e.eventName.toLowerCase().includes(q) || e.winners.some(w => w.name.toLowerCase().includes(q) || w.wallet.toLowerCase().includes(q));
-    return matchCat && matchQ;
+    const mc = currentFilter === '전체' || e.category === currentFilter;
+    const mq = !q || e.eventName.toLowerCase().includes(q) || e.winners.some(w => w.name.toLowerCase().includes(q) || w.wallet.toLowerCase().includes(q));
+    return mc && mq;
   });
 }
+
 function renderTable() {
   updateStats();
   const events = filteredEvents();
   const list = document.getElementById('eventList');
-  if (events.length === 0) { list.innerHTML = `<div class="state-box"><div class="big">⚡</div>검색 결과가 없습니다.</div>`; return; }
+  if (!events.length) { list.innerHTML = `<div class="state-box"><div class="big">⚡</div>검색 결과가 없습니다.</div>`; return; }
   list.innerHTML = events.map((e, i) => {
     const allDone = e.winners.every(w => w.airdrop === '완료');
-    const isSelected = selectedEventName === e.eventName;
-    return `<div class="event-row${isSelected ? ' selected' : ''}" onclick="toggleDetail('${e.eventName.replace(/'/g,"\\'")}', ${i})" style="animation-delay:${i * 0.04}s">
+    const isSel = selectedEventName === e.eventName;
+    const more = e.winners.length > 1 ? ` 외 ${e.winners.length-1}명` : '';
+    return `<div class="event-row${isSel?' selected':''}" onclick="toggleDetail('${e.eventName.replace(/\\/g,'\\\\').replace(/'/g,"\\'")}')}" style="animation-delay:${i*0.04}s">
       <div><div class="event-name">${e.eventName}</div><div class="event-date">${e.date}</div></div>
       <div><span class="cat-pill cat-${e.category}">${e.category}</span></div>
-      <div><div class="winner-name">${e.winners[0]?.name||'—'}</div><div class="winner-count">${e.winners.length}명 당첨${e.winners.length > 1 ? ` 외 ${e.winners.length-1}명` : ''}</div></div>
+      <div><div class="winner-name">${e.winners[0]?.name||'—'}</div><div class="winner-count">${e.winners.length}명 당첨${more}</div></div>
       <div><div class="prize-main">${e.prize}</div><div class="prize-sub">${e.prizeDetail}</div></div>
-      <div class="pay-date">${e.payDate}</div>
-      <div><span class="status-pill ${allDone ? 's-done' : 's-pending'}"><span class="status-dot ${allDone ? 'dot-done' : 'dot-pending'}"></span>${allDone ? 'DONE' : 'PENDING'}</span></div>
+      <div class="pay-date">${e.payDate||'미정'}</div>
+      <div><span class="status-pill ${allDone?'s-done':'s-pending'}"><span class="status-dot ${allDone?'dot-done':'dot-pending'}"></span>${allDone?'DONE':'PENDING'}</span></div>
     </div>`;
   }).join('');
 }
+
 function toggleDetail(eventName) {
   if (selectedEventName === eventName) { closeDetail(); return; }
   selectedEventName = eventName; renderTable();
-  const event = grouped.find(e => e.eventName === eventName);
-  if (!event) return;
-  document.getElementById('detailEventName').textContent = event.eventName;
-  document.getElementById('winnersGrid').innerHTML = event.winners.map((w, i) => `
+  const ev = grouped.find(e => e.eventName === eventName);
+  if (!ev) return;
+  document.getElementById('detailEventName').textContent = ev.eventName;
+  document.getElementById('winnersGrid').innerHTML = ev.winners.map((w,i) => `
     <div class="winner-card">
       <div class="wc-rank">// WINNER #${String(i+1).padStart(2,'0')}</div>
       <div class="wc-name">${w.name}</div>
       <div class="wc-wallet">${w.wallet}</div>
-      <span class="status-pill ${w.airdrop === '완료' ? 's-done' : 's-pending'}">
-        <span class="status-dot ${w.airdrop === '완료' ? 'dot-done' : 'dot-pending'}"></span>
-        ${w.airdrop === '완료' ? 'AIRDROP DONE' : 'PENDING'}
+      <span class="status-pill ${w.airdrop==='완료'?'s-done':'s-pending'}">
+        <span class="status-dot ${w.airdrop==='완료'?'dot-done':'dot-pending'}"></span>
+        ${w.airdrop==='완료'?'AIRDROP DONE':'PENDING'}
       </span>
     </div>`).join('');
-  const done = event.winners.filter(w => w.airdrop === '완료').length;
+  const done = ev.winners.filter(w => w.airdrop==='완료').length;
   document.getElementById('detailSummary').innerHTML = `
-    <div class="ds-item">총 당첨자 <strong>${event.winners.length}명</strong></div>
+    <div class="ds-item">총 당첨자 <strong>${ev.winners.length}명</strong></div>
     <div class="ds-item">완료 <strong style="color:var(--done)">${done}명</strong></div>
-    <div class="ds-item">대기 <strong style="color:var(--pending)">${event.winners.length - done}명</strong></div>
-    <div class="ds-item">지급 예정일 <strong>${event.payDate}</strong></div>
-    <div class="ds-item">상품 <strong>${event.prize}</strong></div>`;
+    <div class="ds-item">대기 <strong style="color:var(--pending)">${ev.winners.length-done}명</strong></div>
+    <div class="ds-item">지급 예정일 <strong>${ev.payDate||'미정'}</strong></div>
+    <div class="ds-item">상품 <strong>${ev.prize}</strong></div>`;
   const panel = document.getElementById('detailPanel');
   panel.classList.add('open');
-  setTimeout(() => panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 50);
+  setTimeout(() => panel.scrollIntoView({ behavior:'smooth', block:'nearest' }), 50);
 }
-function closeDetail() { selectedEventName = null; document.getElementById('detailPanel').classList.remove('open'); renderTable(); }
+
+function closeDetail() {
+  selectedEventName = null;
+  document.getElementById('detailPanel').classList.remove('open');
+  renderTable();
+}
+
 function toggleSetup() { document.getElementById('setupBanner').classList.toggle('show'); }
+
 function saveSheetUrl() {
   const val = document.getElementById('sheetUrlInput').value.trim();
   if (!val) return;
@@ -415,6 +528,17 @@ function saveSheetUrl() {
   document.getElementById('setupBanner').classList.remove('show');
   loadData();
 }
+
+function downloadHTML() {
+  const html = document.documentElement.outerHTML;
+  const blob = new Blob(['<!DOCTYPE html>\n' + html], { type: 'text/html;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'punkbism-events.html';
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
 </script>
-</body>
-</html>
+
+
+</body></html>
