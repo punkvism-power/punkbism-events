@@ -481,7 +481,7 @@ footer{
 <!-- MAIN -->
 <div class="wrap">
   <!-- SETUP -->
-  <div class="setup on" id="setup">
+  <div class="setup" id="setup">
     <div class="setup-t">// GOOGLE SHEET 연동 설정</div>
     <div class="setup-b">
       구글시트 <strong>파일 → 웹에 게시 → CSV</strong> 로 발행 후 URL을 입력하세요.<br>
@@ -663,13 +663,13 @@ let sheetUrl=localStorage.getItem('pb_sheet')||'';
 
 /* ── INIT: URL 있으면 로딩 표시 먼저, 샘플 절대 안 보여줌 ── */
 window.addEventListener('DOMContentLoaded',()=>{
+  /* 시작 시 무조건 setup 패널 닫기 */
+  document.getElementById('setup').classList.remove('on');
   if(sheetUrl){
     document.getElementById('sheetUrl').value=sheetUrl;
     document.getElementById('lsync').textContent='LOADING...';
-    /* 로딩 표시만 하고 샘플 없이 바로 fetch */
     load();
   } else {
-    /* URL 없을 때만 샘플 */
     sample();
   }
 });
