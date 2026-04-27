@@ -481,7 +481,7 @@ footer{
 <!-- MAIN -->
 <div class="wrap">
   <!-- SETUP -->
-  <div class="setup" id="setup">
+  <div class="setup on" id="setup">
     <div class="setup-t">// GOOGLE SHEET 연동 설정</div>
     <div class="setup-b">
       구글시트 <strong>파일 → 웹에 게시 → CSV</strong> 로 발행 후 URL을 입력하세요.<br>
@@ -843,7 +843,14 @@ function toggle(name){
 }
 
 function closeD(){sel=null;document.getElementById('detail').classList.remove('on');render();}
-function toggleSetup(){document.getElementById('setup').classList.toggle('on');}
+function toggleSetup(){
+  const pw = prompt('🔒 관리자 비밀번호를 입력하세요');
+  if(pw === '5272'){
+    document.getElementById('setup').classList.toggle('on');
+  } else if(pw !== null) {
+    alert('❌ 비밀번호가 올바르지 않습니다.');
+  }
+}
 function saveSheet(){
   const v=document.getElementById('sheetUrl').value.trim();
   if(!v)return;
