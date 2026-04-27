@@ -780,9 +780,9 @@ function render(){
     const safe=e.eventName.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
     return `<div class="row${s?' sel':''}" onclick="toggle('${safe}')" style="animation-delay:${i*.035}s">
       <div style="display:flex;align-items:flex-start;gap:12px;">
-        ${e.status==='진행중'
+        ${(e.status==='진행중'||e.status==='Live'||e.status==='live'||e.status==='LIVE')
           ?'<span class="status-live status-on" style="margin-top:2px;flex-shrink:0;"><span class="live-dot live-dot-on"></span>Live</span>'
-          :e.status==='종료'
+          :(e.status==='종료'||e.status==='종료'||e.status==='END'||e.status==='end')
           ?'<span class="status-live status-off" style="margin-top:2px;flex-shrink:0;"><span class="live-dot live-dot-off"></span>종료</span>'
           :'<span style="display:inline-flex;width:52px;flex-shrink:0;"></span>'}
         <div>
