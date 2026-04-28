@@ -429,6 +429,44 @@ header{
 .ds{font-size:13px;color:var(--text3);}
 .ds strong{color:var(--text);font-weight:500;font-size:15px;}
 
+/* ── RANKING ── */
+.ranking-panel{display:none;margin-bottom:1.5rem;border:1px solid rgba(212,168,67,.25);border-radius:14px;overflow:hidden;background:var(--bg2);box-shadow:0 0 80px rgba(212,168,67,.06);}
+.ranking-panel.on{display:block;animation:sd .22s ease;}
+.rk-head{display:flex;align-items:center;justify-content:space-between;padding:20px 28px;background:linear-gradient(90deg,rgba(212,168,67,.09),rgba(124,58,237,.03));border-bottom:1px solid rgba(212,168,67,.2);}
+.rk-title{font-family:var(--disp);font-size:24px;letter-spacing:.06em;color:#f0c860;display:flex;align-items:center;gap:10px;}
+.rk-sub{font-family:var(--mono);font-size:10px;color:var(--text3);letter-spacing:.12em;margin-top:3px;}
+.rk-close{background:none;border:1px solid var(--line2);width:32px;height:32px;border-radius:6px;color:var(--text2);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.rk-close:hover{border-color:#c8a84b;color:#f0c860;}
+.rk-top3{display:grid;grid-template-columns:1fr 1fr 1fr;border-bottom:1px solid rgba(212,168,67,.12);}
+.rk-top3-card{padding:2.5rem 1.5rem 2rem;text-align:center;position:relative;overflow:hidden;transition:background .2s;}
+.rk-top3-card:nth-child(2){border-left:1px solid rgba(255,255,255,.04);border-right:1px solid rgba(255,255,255,.04);}
+.rk-top3-card:hover{background:rgba(255,255,255,.02);}
+.rk-glow-1{background:linear-gradient(180deg,rgba(255,215,0,.08) 0%,transparent 100%);}
+.rk-glow-2{background:linear-gradient(180deg,rgba(192,192,192,.05) 0%,transparent 100%);}
+.rk-glow-3{background:linear-gradient(180deg,rgba(205,127,50,.05) 0%,transparent 100%);}
+.rk-crown{font-size:36px;display:block;margin-bottom:.75rem;}
+.rk-num{font-family:var(--disp);font-size:68px;line-height:1;margin-bottom:.5rem;letter-spacing:.02em;}
+.rk-num-1{color:#ffd700;text-shadow:0 0 30px rgba(255,215,0,.5),0 0 60px rgba(255,215,0,.2);}
+.rk-num-2{color:#d4d4d4;text-shadow:0 0 20px rgba(212,212,212,.3);}
+.rk-num-3{color:#cd7f32;text-shadow:0 0 20px rgba(205,127,50,.3);}
+.rk-addr{font-family:var(--mono);font-size:11px;color:var(--text2);word-break:break-all;line-height:1.6;margin-bottom:1rem;padding:0 .5rem;}
+.rk-wins{display:inline-flex;align-items:center;gap:6px;padding:6px 16px;border-radius:20px;font-family:var(--mono);font-size:12px;font-weight:700;}
+.rk-wins-1{background:rgba(255,215,0,.1);color:#ffd700;border:1px solid rgba(255,215,0,.3);}
+.rk-wins-2{background:rgba(212,212,212,.08);color:#d4d4d4;border:1px solid rgba(212,212,212,.22);}
+.rk-wins-3{background:rgba(205,127,50,.08);color:#cd7f32;border:1px solid rgba(205,127,50,.22);}
+.rk-label{position:absolute;top:14px;right:14px;font-family:var(--mono);font-size:9px;letter-spacing:.1em;padding:3px 9px;border-radius:3px;}
+.rk-label-1{background:rgba(255,215,0,.12);color:#ffd700;border:1px solid rgba(255,215,0,.3);}
+.rk-label-2{background:rgba(212,212,212,.08);color:#d4d4d4;border:1px solid rgba(212,212,212,.2);}
+.rk-label-3{background:rgba(205,127,50,.08);color:#cd7f32;border:1px solid rgba(205,127,50,.2);}
+.rk-list{padding:8px 0 12px;}
+.rk-item{display:grid;grid-template-columns:56px 1fr 90px;align-items:center;gap:16px;padding:13px 28px;border-bottom:1px solid rgba(255,255,255,.03);transition:background .1s;}
+.rk-item:last-child{border-bottom:none;}
+.rk-item:hover{background:rgba(255,255,255,.02);}
+.rk-item-num{font-family:var(--disp);font-size:22px;color:var(--text3);text-align:center;}
+.rk-item-addr{font-family:var(--mono);font-size:11px;color:var(--text2);line-height:1.5;}
+.rk-item-wins{text-align:right;font-family:var(--mono);font-size:11px;font-weight:700;color:var(--pu3);}
+.rk-empty{padding:3rem;text-align:center;color:var(--text3);font-family:var(--mono);font-size:12px;line-height:2;}
+
 /* ── FOOTER ── */
 footer{
   text-align:center;padding:3.5rem;
@@ -513,15 +551,26 @@ footer{
 
   <!-- TOOLBAR -->
   <div class="toolbar">
-    <div class="filters">
-      <button class="fb aall" id="cat-전체" onclick="setF('전체')">전체</button>
-      <button class="fb" id="cat-시민권" onclick="setF('시민권')">시민권</button>
-      <button class="fb" id="cat-토큰" onclick="setF('토큰')">토큰</button>
-      <button class="fb" id="cat-화이트리스트" onclick="setF('화이트리스트')">화이트리스트</button>
-      <button class="fb" id="cat-기타" onclick="setF('기타')">기타</button>
-      <button class="fb" id="st-진행중" onclick="setSF('진행중')"><span class="sf-dot sf-dot-live"></span>진행중</button>
-      <button class="fb" id="st-종료" onclick="setSF('종료')"><span class="sf-dot sf-dot-end"></span>종료</button>
-      <button class="fb" id="btn-ranking" onclick="toggleRanking()" style="letter-spacing:.04em;">🏆 랭킹</button>
+    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+      <div class="filters">
+        <button class="fb aall" id="cat-전체" onclick="setF('전체')">전체</button>
+        <button class="fb" id="cat-시민권" onclick="setF('시민권')">시민권</button>
+        <button class="fb" id="cat-토큰" onclick="setF('토큰')">토큰</button>
+        <button class="fb" id="cat-화이트리스트" onclick="setF('화이트리스트')">화이트리스트</button>
+        <button class="fb" id="cat-기타" onclick="setF('기타')">기타</button>
+        <button class="fb" id="st-진행중" onclick="setSF('진행중')"><span class="sf-dot sf-dot-live"></span>진행중</button>
+        <button class="fb" id="st-종료" onclick="setSF('종료')"><span class="sf-dot sf-dot-end"></span>종료</button>
+      </div>
+      <button id="btn-ranking" onclick="toggleRanking()" style="
+        display:flex;align-items:center;gap:7px;
+        padding:10px 18px;border-radius:6px;
+        border:1px solid rgba(212,168,67,.4);
+        background:rgba(212,168,67,.06);
+        color:#c8a84b;font-family:var(--mono);font-size:12px;
+        cursor:pointer;transition:all .2s;white-space:nowrap;letter-spacing:.08em;
+      " onmouseover="this.style.borderColor='#c8a84b';this.style.background='rgba(212,168,67,.12)'" onmouseout="if(!this.classList.contains('on')){this.style.borderColor='rgba(212,168,67,.4)';this.style.background='rgba(212,168,67,.06)'}">
+        🏆 랭킹
+      </button>
     </div>
     <div class="sw">
       <div class="si">
@@ -547,12 +596,12 @@ footer{
 
   <!-- RANKING -->
   <div class="ranking-panel" id="rankingPanel">
-    <div class="ranking-head">
+    <div class="rk-head">
       <div>
-        <div class="ranking-title">🏆 당첨 랭킹</div>
-        <div class="ranking-sub">// 전체 이벤트 기준 · 지갑주소별 당첨 횟수</div>
+        <div class="rk-title">🏆 당첨 랭킹</div>
+        <div class="rk-sub">// 전체 이벤트 기준 · 지갑주소별 누적 당첨 횟수</div>
       </div>
-      <button class="ranking-close" onclick="toggleRanking()">✕</button>
+      <button class="rk-close" onclick="toggleRanking()">✕</button>
     </div>
     <div id="rankingBody"></div>
   </div>
@@ -871,63 +920,60 @@ function saveSheet(){
   load();
 }
 function toggleRanking(){
-  const panel = document.getElementById('rankingPanel');
-  const btn = document.getElementById('btn-ranking');
-  const isOn = panel.classList.toggle('on');
-  btn.className = isOn ? 'fb sf-live-active' : 'fb';
-  btn.style.letterSpacing = '.04em';
-  if(isOn) buildRanking();
+  const panel=document.getElementById('rankingPanel');
+  const btn=document.getElementById('btn-ranking');
+  const isOn=panel.classList.toggle('on');
+  if(isOn){
+    btn.style.borderColor='#c8a84b';
+    btn.style.background='rgba(212,168,67,.15)';
+    btn.style.color='#f0c860';
+    buildRanking();
+  } else {
+    btn.style.borderColor='rgba(212,168,67,.4)';
+    btn.style.background='rgba(212,168,67,.06)';
+    btn.style.color='#c8a84b';
+  }
 }
 
 function buildRanking(){
-  /* 전체 rows에서 지갑주소별 당첨 횟수 집계 */
-  const map = {};
-  rows.forEach(r => {
-    if(!r.wallet || r.wallet.trim() === '') return;
-    const w = r.wallet.trim();
-    map[w] = (map[w] || 0) + 1;
+  const map={};
+  rows.forEach(r=>{
+    if(!r.wallet||r.wallet.trim()==='') return;
+    const w=r.wallet.trim();
+    map[w]=(map[w]||0)+1;
   });
-
-  const sorted = Object.entries(map)
-    .sort((a,b) => b[1] - a[1])
-    .map(([wallet, count], i) => ({rank: i+1, wallet, count}));
-
-  if(sorted.length === 0){
-    document.getElementById('rankingBody').innerHTML =
-      '<div class="rank-empty">데이터가 없습니다.<br>구글시트를 연결하고 SYNC를 눌러주세요.</div>';
+  const sorted=Object.entries(map).sort((a,b)=>b[1]-a[1]).map(([wallet,count],i)=>({rank:i+1,wallet,count}));
+  if(sorted.length===0){
+    document.getElementById('rankingBody').innerHTML=`<div class="rk-empty">🔍 데이터가 없습니다.<br>구글시트를 연결하고 SYNC를 눌러주세요.</div>`;
     return;
   }
+  const sh=w=>w.length>20?w.slice(0,10)+'...'+w.slice(-6):w;
+  const top3=sorted.slice(0,3);
+  const rest=sorted.slice(3);
+  const numCls=['rk-num-1','rk-num-2','rk-num-3'];
+  const glowCls=['rk-glow-1','rk-glow-2','rk-glow-3'];
+  const winCls=['rk-wins-1','rk-wins-2','rk-wins-3'];
+  const lblCls=['rk-label-1','rk-label-2','rk-label-3'];
+  const crowns=['👑','🥈','🥉'];
+  const labels=['CHAMPION','RUNNER-UP','3RD PLACE'];
 
-  const shortW = w => w.length > 16 ? w.slice(0,8)+'...'+w.slice(-6) : w;
-  const crownMap = {1:'👑',2:'🥈',3:'🥉'};
-  const clsMap = {1:'top1',2:'top2',3:'top3'};
-  const badgeMap = {1:'CHAMPION',2:'RUNNER-UP',3:'3RD PLACE'};
+  const top3HTML=`<div class="rk-top3">${top3.map((p,i)=>`
+    <div class="rk-top3-card ${glowCls[i]}">
+      <div class="rk-label ${lblCls[i]}">${labels[i]}</div>
+      <span class="rk-crown">${crowns[i]}</span>
+      <div class="rk-num ${numCls[i]}">${p.rank}</div>
+      <div class="rk-addr">${sh(p.wallet)}</div>
+      <span class="rk-wins ${winCls[i]}">🎯 ${p.count}회 당첨</span>
+    </div>`).join('')}</div>`;
 
-  const top3 = sorted.slice(0,3);
-  const rest = sorted.slice(3);
+  const restHTML=rest.length>0?`<div class="rk-list">${rest.map(p=>`
+    <div class="rk-item">
+      <div class="rk-item-num">${p.rank}</div>
+      <div class="rk-item-addr">${sh(p.wallet)}</div>
+      <div class="rk-item-wins">🎯 ${p.count}회</div>
+    </div>`).join('')}</div>`:'';
 
-  /* 2등을 가운데로 보내지 않고 1-2-3 순서 유지 */
-  const top3HTML = `<div class="top3-grid">
-    ${top3.map(p => `
-    <div class="top-card ${clsMap[p.rank]||''}">
-      <span class="top-crown">${crownMap[p.rank]||''}</span>
-      <div class="top-rank">${p.rank}</div>
-      <div class="top-wallet">${shortW(p.wallet)}</div>
-      <span class="top-count">🎯 ${p.count}회 당첨</span>
-      <div class="top-badge">${badgeMap[p.rank]||''}</div>
-    </div>`).join('')}
-  </div>`;
-
-  const restHTML = rest.length > 0 ? `<div class="rank-list">
-    ${rest.map(p => `
-    <div class="rank-item">
-      <div class="rank-num">${p.rank}</div>
-      <div class="rank-wallet">${shortW(p.wallet)}</div>
-      <div class="rank-wins">🎯 ${p.count}회</div>
-    </div>`).join('')}
-  </div>` : '';
-
-  document.getElementById('rankingBody').innerHTML = top3HTML + restHTML;
+  document.getElementById('rankingBody').innerHTML=top3HTML+restHTML;
 }
 
 function dlHTML(){
