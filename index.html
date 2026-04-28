@@ -535,41 +535,76 @@ header{
 
 /* ── 4위 이하 리스트 ── */
 .rk-list-wrap{
-  padding:1.5rem 2rem 1rem;
+  padding:1.5rem 2rem 1.5rem;
   border-top:1px solid rgba(212,168,67,.12);
-  margin-top:0;
 }
 .rk-list-head{
-  display:grid;grid-template-columns:56px 1fr 100px;
-  padding:10px 16px;margin-bottom:4px;
-  font-family:var(--mono);font-size:10px;color:var(--text3);
-  letter-spacing:.15em;text-transform:uppercase;
-  border-bottom:1px solid rgba(255,255,255,.05);
+  display:grid;grid-template-columns:72px 1fr 130px;
+  padding:12px 20px;margin-bottom:4px;
+  font-family:var(--mono);font-size:12px;color:var(--text2);
+  letter-spacing:.15em;text-transform:uppercase;font-weight:700;
+  border-bottom:1px solid rgba(255,255,255,.08);
 }
 .rk-item{
-  display:grid;grid-template-columns:56px 1fr 100px;
-  align-items:center;gap:0;
-  padding:16px 16px;
+  display:grid;grid-template-columns:72px 1fr 130px;
+  align-items:center;
+  padding:18px 20px;
   border-radius:8px;
-  border-bottom:1px solid rgba(255,255,255,.03);
+  border-bottom:1px solid rgba(255,255,255,.04);
   transition:all .15s;cursor:default;
 }
 .rk-item:last-child{border-bottom:none;}
-.rk-item:hover{background:rgba(255,255,255,.03);}
+.rk-item:hover{background:rgba(255,255,255,.04);padding-left:24px;}
 .rk-item-num{
-  font-family:var(--disp);font-size:26px;
-  color:var(--text3);text-align:center;letter-spacing:.04em;
+  font-family:var(--disp);font-size:30px;
+  color:var(--text2);text-align:center;letter-spacing:.04em;
 }
 .rk-item-addr{
-  font-family:var(--mono);font-size:13px;
-  color:var(--text2);line-height:1.5;
+  font-family:var(--mono);font-size:14px;
+  color:var(--text);line-height:1.5;font-weight:400;
 }
 .rk-item-wins{
   text-align:right;
-  font-family:var(--mono);font-size:13px;font-weight:700;
+  font-family:var(--mono);font-size:14px;font-weight:700;
   color:var(--pu3);
 }
-.rk-empty{padding:4rem;text-align:center;color:var(--text3);font-family:var(--mono);font-size:13px;line-height:2.2;}
+/* 포디엄 글씨 크기 업 */
+.rk-pod-addr{
+  font-family:var(--mono);font-size:13px;color:var(--text);
+  word-break:break-all;text-align:center;line-height:1.7;
+  margin-bottom:1rem;padding:0 .5rem;font-weight:500;
+}
+.rk-pod-wins{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:8px 20px;border-radius:20px;
+  font-family:var(--mono);font-size:14px;font-weight:700;
+  margin-bottom:1.25rem;
+}
+.rk-pod-badge{
+  font-family:var(--mono);font-size:11px;letter-spacing:.12em;
+  padding:5px 14px;border-radius:4px;
+}
+
+/* 페이지네이션 */
+.rk-pagination{
+  display:flex;align-items:center;justify-content:center;gap:6px;
+  padding:1.25rem 0 .5rem;
+  border-top:1px solid rgba(255,255,255,.05);
+  margin-top:.5rem;
+}
+.rk-pg-btn{
+  width:38px;height:38px;border-radius:6px;
+  border:1px solid var(--line2);background:transparent;
+  color:var(--text2);font-family:var(--mono);font-size:13px;
+  cursor:pointer;transition:all .15s;
+  display:flex;align-items:center;justify-content:center;
+}
+.rk-pg-btn:hover{border-color:rgba(212,168,67,.4);color:#c8a84b;}
+.rk-pg-btn.active{background:rgba(212,168,67,.12);border-color:#c8a84b;color:#f0c860;font-weight:700;}
+.rk-pg-btn:disabled{opacity:.3;cursor:not-allowed;}
+.rk-pg-info{font-family:var(--mono);font-size:11px;color:var(--text3);padding:0 8px;letter-spacing:.08em;}
+
+.rk-empty{padding:4rem;text-align:center;color:var(--text2);font-family:var(--mono);font-size:14px;line-height:2.2;}
 
 /* ── FOOTER ── */
 footer{
@@ -1061,53 +1096,85 @@ function buildRanking(){
     return;
   }
 
-  const sh=w=>w.length>20?w.slice(0,10)+'...'+w.slice(-6):w;
+  const sh=w=>w.length>22?w.slice(0,12)+'...'+w.slice(-6):w;
   const top=sorted.slice(0,3);
   const rest=sorted.slice(3);
 
-  /* 포디엄 순서: 2등 왼쪽, 1등 가운데, 3등 오른쪽 */
-  const podOrder=[
-    top[1]||null,  /* 왼쪽: 2등 */
-    top[0]||null,  /* 가운데: 1등 */
-    top[2]||null   /* 오른쪽: 3등 */
-  ];
+  /* 포디엄: 2등 왼쪽, 1등 가운데, 3등 오른쪽 */
+  const podOrder=[top[1]||null, top[0]||null, top[2]||null];
   const podCls=['rk-pod-2','rk-pod-1','rk-pod-3'];
   const crowns=['🥈','👑','🥉'];
-  const winCls=['rk-pod-wins','rk-pod-wins','rk-pod-wins'];
   const badges=['RUNNER-UP','CHAMPION','3RD PLACE'];
   const steps=['2ND','1ST','3RD'];
 
   const podHTML=`<div class="rk-podium">
-    ${podOrder.map((p,i)=> p ? `
+    ${podOrder.map((p,i)=>p?`
     <div class="rk-pod ${podCls[i]}">
       <div class="rk-pod-box">
         <div class="rk-pod-crown">${crowns[i]}</div>
         <div class="rk-pod-num">${p.rank}</div>
         <div class="rk-pod-addr">${sh(p.wallet)}</div>
-        <div class="rk-pod-wins">🎯 ${p.count}회 당첨</div>
-        <div class="rk-pod-badge">${badges[i]}</div>
+        <div class="rk-pod-wins ${podCls[i].replace('rk-pod-','rk-pod-wins-')}">🎯 ${p.count}회 당첨</div>
+        <div class="rk-pod-badge ${podCls[i].replace('rk-pod-','rk-label-')}">${badges[i]}</div>
       </div>
       <div class="rk-step">${steps[i]}</div>
-    </div>` : `<div class="rk-pod ${podCls[i]}"></div>`
+    </div>`:`<div class="rk-pod ${podCls[i]}"><div class="rk-pod-box"></div><div class="rk-step" style="opacity:.2">${steps[i]}</div></div>`
     ).join('')}
   </div>`;
 
-  const restHTML=rest.length>0?`
-  <div class="rk-list-wrap">
-    <div class="rk-list-head">
-      <div style="text-align:center">순위</div>
-      <div>지갑주소</div>
-      <div style="text-align:right">당첨 횟수</div>
-    </div>
-    ${rest.map(p=>`
-    <div class="rk-item">
-      <div class="rk-item-num">${p.rank}</div>
-      <div class="rk-item-addr">${sh(p.wallet)}</div>
-      <div class="rk-item-wins">🎯 ${p.count}회</div>
-    </div>`).join('')}
-  </div>`:'';
+  /* 페이지네이션 */
+  const PAGE_SIZE = 20;
+  let curPage = 1;
+  const totalPages = Math.ceil(rest.length / PAGE_SIZE);
 
-  document.getElementById('rankingBody').innerHTML=podHTML+restHTML;
+  function renderList(page){
+    if(rest.length===0) return '';
+    const start=(page-1)*PAGE_SIZE;
+    const end=Math.min(start+PAGE_SIZE, rest.length);
+    const pageItems=rest.slice(start,end);
+
+    const listHTML=`<div class="rk-list-wrap">
+      <div class="rk-list-head">
+        <div style="text-align:center">순위</div>
+        <div>지갑주소</div>
+        <div style="text-align:right">당첨 횟수</div>
+      </div>
+      ${pageItems.map(p=>`
+      <div class="rk-item">
+        <div class="rk-item-num">${p.rank}</div>
+        <div class="rk-item-addr">${sh(p.wallet)}</div>
+        <div class="rk-item-wins">🎯 ${p.count}회</div>
+      </div>`).join('')}
+      ${totalPages>1?`
+      <div class="rk-pagination">
+        <button class="rk-pg-btn" onclick="rkPage(${page-1})" ${page===1?'disabled':''}>‹</button>
+        ${Array.from({length:totalPages},(_,i)=>i+1).map(n=>`
+          <button class="rk-pg-btn ${n===page?'active':''}" onclick="rkPage(${n})">${n}</button>
+        `).join('')}
+        <button class="rk-pg-btn" onclick="rkPage(${page+1})" ${page===totalPages?'disabled':''}>›</button>
+        <span class="rk-pg-info">${start+4+1}~${end+3}위 / 전체 ${sorted.length}명</span>
+      </div>`:''}
+    </div>`;
+
+    return listHTML;
+  }
+
+  /* 전역에서 페이지 변경 가능하도록 */
+  window.rkPage=function(page){
+    if(page<1||page>totalPages) return;
+    curPage=page;
+    const body=document.getElementById('rankingBody');
+    const listEl=body.querySelector('.rk-list-wrap');
+    if(listEl){
+      const tmp=document.createElement('div');
+      tmp.innerHTML=renderList(page);
+      listEl.replaceWith(tmp.firstElementChild);
+    }
+    /* 리스트 상단으로 스크롤 */
+    body.querySelector('.rk-list-wrap').scrollIntoView({behavior:'smooth',block:'nearest'});
+  };
+
+  document.getElementById('rankingBody').innerHTML=podHTML+renderList(1);
 }
 
 function dlHTML(){
