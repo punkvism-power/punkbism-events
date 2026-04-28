@@ -582,7 +582,7 @@ footer{
   </div>
 
   <!-- TABLE -->
-  <div class="tbl">
+  <div class="tbl" id="tblWrap">
     <div class="thead">
       <div class="th">이벤트명</div>
       <div class="th">카테고리</div>
@@ -920,18 +920,23 @@ function saveSheet(){
   load();
 }
 function toggleRanking(){
-  const panel=document.getElementById('rankingPanel');
-  const btn=document.getElementById('btn-ranking');
-  const isOn=panel.classList.toggle('on');
+  const panel = document.getElementById('rankingPanel');
+  const tbl   = document.getElementById('tblWrap');
+  const btn   = document.getElementById('btn-ranking');
+  const isOn  = panel.classList.toggle('on');
   if(isOn){
-    btn.style.borderColor='#c8a84b';
-    btn.style.background='rgba(212,168,67,.15)';
-    btn.style.color='#f0c860';
+    /* 랭킹 열기: 테이블 숨김 */
+    tbl.style.display = 'none';
+    btn.style.borderColor = '#c8a84b';
+    btn.style.background  = 'rgba(212,168,67,.15)';
+    btn.style.color       = '#f0c860';
     buildRanking();
   } else {
-    btn.style.borderColor='rgba(212,168,67,.4)';
-    btn.style.background='rgba(212,168,67,.06)';
-    btn.style.color='#c8a84b';
+    /* 랭킹 닫기: 테이블 다시 표시 */
+    tbl.style.display = 'block';
+    btn.style.borderColor = 'rgba(212,168,67,.4)';
+    btn.style.background  = 'rgba(212,168,67,.06)';
+    btn.style.color       = '#c8a84b';
   }
 }
 
