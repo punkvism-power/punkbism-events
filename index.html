@@ -521,6 +521,7 @@ footer{
       <button class="fb" id="cat-기타" onclick="setF('기타')">기타</button>
       <button class="fb" id="st-진행중" onclick="setSF('진행중')"><span class="sf-dot sf-dot-live"></span>진행중</button>
       <button class="fb" id="st-종료" onclick="setSF('종료')"><span class="sf-dot sf-dot-end"></span>종료</button>
+      <button class="fb" id="btn-ranking" onclick="toggleRanking()" style="letter-spacing:.04em;">🏆 랭킹</button>
     </div>
     <div class="sw">
       <div class="si">
@@ -542,6 +543,18 @@ footer{
       <div class="th">에어드랍</div>
     </div>
     <div id="list"><div class="empty"><span class="eicon" style="animation:none">🔗</span><div class="emsg">⚙ SHEET 설정 버튼을 눌러 구글시트를 연결해주세요.</div></div></div>
+  </div>
+
+  <!-- RANKING -->
+  <div class="ranking-panel" id="rankingPanel">
+    <div class="ranking-head">
+      <div>
+        <div class="ranking-title">🏆 당첨 랭킹</div>
+        <div class="ranking-sub">// 전체 이벤트 기준 · 지갑주소별 당첨 횟수</div>
+      </div>
+      <button class="ranking-close" onclick="toggleRanking()">✕</button>
+    </div>
+    <div id="rankingBody"></div>
   </div>
 
   <!-- DETAIL -->
@@ -857,6 +870,66 @@ function saveSheet(){
   document.getElementById('setup').classList.remove('on');
   load();
 }
+function toggleRanking(){
+  const panel = document.getElementById('rankingPanel');
+  const btn = document.getElementById('btn-ranking');
+  const isOn = panel.classList.toggle('on');
+  btn.className = isOn ? 'fb sf-live-active' : 'fb';
+  btn.style.letterSpacing = '.04em';
+  if(isOn) buildRanking();
+}
+
+function buildRanking(){
+  /* 전체 rows에서 지갑주소별 당첨 횟수 집계 */
+  const map = {};
+  rows.forEach(r => {
+    if(!r.wallet || r.wallet.trim() === '') return;
+    const w = r.wallet.trim();
+    map[w] = (map[w] || 0) + 1;
+  });
+
+  const sorted = Object.entries(map)
+    .sort((a,b) => b[1] - a[1])
+    .map(([wallet, count], i) => ({rank: i+1, wallet, count}));
+
+  if(sorted.length === 0){
+    document.getElementById('rankingBody').innerHTML =
+      '<div class="rank-empty">데이터가 없습니다.<br>구글시트를 연결하고 SYNC를 눌러주세요.</div>';
+    return;
+  }
+
+  const shortW = w => w.length > 16 ? w.slice(0,8)+'...'+w.slice(-6) : w;
+  const crownMap = {1:'👑',2:'🥈',3:'🥉'};
+  const clsMap = {1:'top1',2:'top2',3:'top3'};
+  const badgeMap = {1:'CHAMPION',2:'RUNNER-UP',3:'3RD PLACE'};
+
+  const top3 = sorted.slice(0,3);
+  const rest = sorted.slice(3);
+
+  /* 2등을 가운데로 보내지 않고 1-2-3 순서 유지 */
+  const top3HTML = `<div class="top3-grid">
+    ${top3.map(p => `
+    <div class="top-card ${clsMap[p.rank]||''}">
+      <span class="top-crown">${crownMap[p.rank]||''}</span>
+      <div class="top-rank">${p.rank}</div>
+      <div class="top-wallet">${shortW(p.wallet)}</div>
+      <span class="top-count">🎯 ${p.count}회 당첨</span>
+      <div class="top-badge">${badgeMap[p.rank]||''}</div>
+    </div>`).join('')}
+  </div>`;
+
+  const restHTML = rest.length > 0 ? `<div class="rank-list">
+    ${rest.map(p => `
+    <div class="rank-item">
+      <div class="rank-num">${p.rank}</div>
+      <div class="rank-wallet">${shortW(p.wallet)}</div>
+      <div class="rank-wins">🎯 ${p.count}회</div>
+    </div>`).join('')}
+  </div>` : '';
+
+  document.getElementById('rankingBody').innerHTML = top3HTML + restHTML;
+}
+
 function dlHTML(){
   const pw = prompt('🔒 관리자 비밀번호를 입력하세요');
   if(pw !== '5272'){
