@@ -430,42 +430,146 @@ header{
 .ds strong{color:var(--text);font-weight:500;font-size:15px;}
 
 /* ── RANKING ── */
-.ranking-panel{display:none;margin-bottom:1.5rem;border:1px solid rgba(212,168,67,.25);border-radius:14px;overflow:hidden;background:var(--bg2);box-shadow:0 0 80px rgba(212,168,67,.06);}
-.ranking-panel.on{display:block;animation:sd .22s ease;}
-.rk-head{display:flex;align-items:center;justify-content:space-between;padding:20px 28px;background:linear-gradient(90deg,rgba(212,168,67,.09),rgba(124,58,237,.03));border-bottom:1px solid rgba(212,168,67,.2);}
-.rk-title{font-family:var(--disp);font-size:24px;letter-spacing:.06em;color:#f0c860;display:flex;align-items:center;gap:10px;}
-.rk-sub{font-family:var(--mono);font-size:10px;color:var(--text3);letter-spacing:.12em;margin-top:3px;}
-.rk-close{background:none;border:1px solid var(--line2);width:32px;height:32px;border-radius:6px;color:var(--text2);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.ranking-panel{
+  display:none;margin-bottom:1.5rem;
+  border:1px solid rgba(212,168,67,.3);
+  border-radius:16px;overflow:hidden;
+  background:var(--bg2);
+  box-shadow:0 0 100px rgba(212,168,67,.08);
+}
+.ranking-panel.on{display:block;animation:sd .25s ease;}
+.rk-head{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:24px 32px;
+  background:linear-gradient(90deg,rgba(212,168,67,.12),rgba(124,58,237,.05));
+  border-bottom:1px solid rgba(212,168,67,.2);
+}
+.rk-title{font-family:var(--disp);font-size:28px;letter-spacing:.08em;color:#f0c860;display:flex;align-items:center;gap:12px;}
+.rk-sub{font-family:var(--mono);font-size:11px;color:var(--text3);letter-spacing:.12em;margin-top:4px;}
+.rk-close{background:none;border:1px solid var(--line2);width:36px;height:36px;border-radius:6px;color:var(--text2);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;}
 .rk-close:hover{border-color:#c8a84b;color:#f0c860;}
-.rk-top3{display:grid;grid-template-columns:1fr 1fr 1fr;border-bottom:1px solid rgba(212,168,67,.12);}
-.rk-top3-card{padding:2.5rem 1.5rem 2rem;text-align:center;position:relative;overflow:hidden;transition:background .2s;}
-.rk-top3-card:nth-child(2){border-left:1px solid rgba(255,255,255,.04);border-right:1px solid rgba(255,255,255,.04);}
-.rk-top3-card:hover{background:rgba(255,255,255,.02);}
-.rk-glow-1{background:linear-gradient(180deg,rgba(255,215,0,.08) 0%,transparent 100%);}
-.rk-glow-2{background:linear-gradient(180deg,rgba(192,192,192,.05) 0%,transparent 100%);}
-.rk-glow-3{background:linear-gradient(180deg,rgba(205,127,50,.05) 0%,transparent 100%);}
-.rk-crown{font-size:36px;display:block;margin-bottom:.75rem;}
-.rk-num{font-family:var(--disp);font-size:68px;line-height:1;margin-bottom:.5rem;letter-spacing:.02em;}
-.rk-num-1{color:#ffd700;text-shadow:0 0 30px rgba(255,215,0,.5),0 0 60px rgba(255,215,0,.2);}
-.rk-num-2{color:#d4d4d4;text-shadow:0 0 20px rgba(212,212,212,.3);}
-.rk-num-3{color:#cd7f32;text-shadow:0 0 20px rgba(205,127,50,.3);}
-.rk-addr{font-family:var(--mono);font-size:11px;color:var(--text2);word-break:break-all;line-height:1.6;margin-bottom:1rem;padding:0 .5rem;}
-.rk-wins{display:inline-flex;align-items:center;gap:6px;padding:6px 16px;border-radius:20px;font-family:var(--mono);font-size:12px;font-weight:700;}
-.rk-wins-1{background:rgba(255,215,0,.1);color:#ffd700;border:1px solid rgba(255,215,0,.3);}
-.rk-wins-2{background:rgba(212,212,212,.08);color:#d4d4d4;border:1px solid rgba(212,212,212,.22);}
-.rk-wins-3{background:rgba(205,127,50,.08);color:#cd7f32;border:1px solid rgba(205,127,50,.22);}
-.rk-label{position:absolute;top:14px;right:14px;font-family:var(--mono);font-size:9px;letter-spacing:.1em;padding:3px 9px;border-radius:3px;}
-.rk-label-1{background:rgba(255,215,0,.12);color:#ffd700;border:1px solid rgba(255,215,0,.3);}
-.rk-label-2{background:rgba(212,212,212,.08);color:#d4d4d4;border:1px solid rgba(212,212,212,.2);}
-.rk-label-3{background:rgba(205,127,50,.08);color:#cd7f32;border:1px solid rgba(205,127,50,.2);}
-.rk-list{padding:8px 0 12px;}
-.rk-item{display:grid;grid-template-columns:56px 1fr 90px;align-items:center;gap:16px;padding:13px 28px;border-bottom:1px solid rgba(255,255,255,.03);transition:background .1s;}
+
+/* ── 포디엄 ── */
+.rk-podium{
+  display:grid;grid-template-columns:1fr 1.15fr 1fr;
+  padding:3rem 2rem 0;
+  gap:8px;
+  background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(212,168,67,.08),transparent);
+  align-items:flex-end;
+}
+.rk-pod{
+  display:flex;flex-direction:column;align-items:center;
+  position:relative;
+}
+/* 포디엄 박스 */
+.rk-pod-box{
+  width:100%;
+  display:flex;flex-direction:column;align-items:center;
+  padding:2rem 1rem 1.5rem;
+  border-radius:12px 12px 0 0;
+  position:relative;overflow:hidden;
+  transition:transform .2s;
+}
+.rk-pod-box:hover{transform:translateY(-4px);}
+.rk-pod-1 .rk-pod-box{
+  background:linear-gradient(180deg,rgba(255,215,0,.12),rgba(255,215,0,.04));
+  border:1px solid rgba(255,215,0,.3);border-bottom:none;
+  box-shadow:0 -8px 40px rgba(255,215,0,.15),inset 0 1px 0 rgba(255,215,0,.2);
+}
+.rk-pod-2 .rk-pod-box{
+  background:linear-gradient(180deg,rgba(192,192,192,.09),rgba(192,192,192,.03));
+  border:1px solid rgba(192,192,192,.25);border-bottom:none;
+  box-shadow:0 -4px 24px rgba(192,192,192,.08);
+}
+.rk-pod-3 .rk-pod-box{
+  background:linear-gradient(180deg,rgba(205,127,50,.09),rgba(205,127,50,.03));
+  border:1px solid rgba(205,127,50,.25);border-bottom:none;
+  box-shadow:0 -4px 24px rgba(205,127,50,.08);
+}
+/* 왕관/메달 */
+.rk-pod-crown{font-size:44px;margin-bottom:1rem;filter:drop-shadow(0 0 12px currentColor);}
+.rk-pod-1 .rk-pod-crown{animation:float 3s ease-in-out infinite;}
+@keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
+/* 순위 숫자 */
+.rk-pod-num{
+  font-family:var(--disp);line-height:1;margin-bottom:.75rem;
+  letter-spacing:.02em;
+}
+.rk-pod-1 .rk-pod-num{font-size:90px;color:#ffd700;text-shadow:0 0 40px rgba(255,215,0,.6),0 0 80px rgba(255,215,0,.25);}
+.rk-pod-2 .rk-pod-num{font-size:72px;color:#d4d4d4;text-shadow:0 0 24px rgba(212,212,212,.4);}
+.rk-pod-3 .rk-pod-num{font-size:72px;color:#cd7f32;text-shadow:0 0 24px rgba(205,127,50,.4);}
+/* 지갑 */
+.rk-pod-addr{
+  font-family:var(--mono);font-size:12px;color:var(--text2);
+  word-break:break-all;text-align:center;line-height:1.7;
+  margin-bottom:1rem;padding:0 .5rem;
+}
+/* 당첨수 */
+.rk-pod-wins{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:7px 18px;border-radius:20px;
+  font-family:var(--mono);font-size:13px;font-weight:700;
+  margin-bottom:1.25rem;
+}
+.rk-pod-1 .rk-pod-wins{background:rgba(255,215,0,.12);color:#ffd700;border:1px solid rgba(255,215,0,.3);box-shadow:0 0 16px rgba(255,215,0,.1);}
+.rk-pod-2 .rk-pod-wins{background:rgba(212,212,212,.08);color:#d4d4d4;border:1px solid rgba(212,212,212,.22);}
+.rk-pod-3 .rk-pod-wins{background:rgba(205,127,50,.08);color:#cd7f32;border:1px solid rgba(205,127,50,.22);}
+/* 뱃지 */
+.rk-pod-badge{
+  font-family:var(--mono);font-size:10px;letter-spacing:.12em;
+  padding:4px 12px;border-radius:4px;
+}
+.rk-pod-1 .rk-pod-badge{background:rgba(255,215,0,.15);color:#ffd700;border:1px solid rgba(255,215,0,.3);}
+.rk-pod-2 .rk-pod-badge{background:rgba(212,212,212,.08);color:#d4d4d4;border:1px solid rgba(212,212,212,.2);}
+.rk-pod-3 .rk-pod-badge{background:rgba(205,127,50,.08);color:#cd7f32;border:1px solid rgba(205,127,50,.2);}
+
+/* 포디엄 스텝 */
+.rk-step{
+  width:100%;text-align:center;
+  font-family:var(--disp);font-size:20px;letter-spacing:.1em;
+  padding:.6rem 0;border-radius:0 0 8px 8px;
+}
+.rk-pod-1 .rk-step{background:rgba(255,215,0,.15);color:rgba(255,215,0,.6);border:1px solid rgba(255,215,0,.2);border-top:none;height:80px;line-height:80px;padding:0;}
+.rk-pod-2 .rk-step{background:rgba(192,192,192,.08);color:rgba(192,192,192,.5);border:1px solid rgba(192,192,192,.15);border-top:none;height:56px;line-height:56px;padding:0;}
+.rk-pod-3 .rk-step{background:rgba(205,127,50,.08);color:rgba(205,127,50,.5);border:1px solid rgba(205,127,50,.15);border-top:none;height:40px;line-height:40px;padding:0;}
+
+/* ── 4위 이하 리스트 ── */
+.rk-list-wrap{
+  padding:1.5rem 2rem 1rem;
+  border-top:1px solid rgba(212,168,67,.12);
+  margin-top:0;
+}
+.rk-list-head{
+  display:grid;grid-template-columns:56px 1fr 100px;
+  padding:10px 16px;margin-bottom:4px;
+  font-family:var(--mono);font-size:10px;color:var(--text3);
+  letter-spacing:.15em;text-transform:uppercase;
+  border-bottom:1px solid rgba(255,255,255,.05);
+}
+.rk-item{
+  display:grid;grid-template-columns:56px 1fr 100px;
+  align-items:center;gap:0;
+  padding:16px 16px;
+  border-radius:8px;
+  border-bottom:1px solid rgba(255,255,255,.03);
+  transition:all .15s;cursor:default;
+}
 .rk-item:last-child{border-bottom:none;}
-.rk-item:hover{background:rgba(255,255,255,.02);}
-.rk-item-num{font-family:var(--disp);font-size:22px;color:var(--text3);text-align:center;}
-.rk-item-addr{font-family:var(--mono);font-size:11px;color:var(--text2);line-height:1.5;}
-.rk-item-wins{text-align:right;font-family:var(--mono);font-size:11px;font-weight:700;color:var(--pu3);}
-.rk-empty{padding:3rem;text-align:center;color:var(--text3);font-family:var(--mono);font-size:12px;line-height:2;}
+.rk-item:hover{background:rgba(255,255,255,.03);}
+.rk-item-num{
+  font-family:var(--disp);font-size:26px;
+  color:var(--text3);text-align:center;letter-spacing:.04em;
+}
+.rk-item-addr{
+  font-family:var(--mono);font-size:13px;
+  color:var(--text2);line-height:1.5;
+}
+.rk-item-wins{
+  text-align:right;
+  font-family:var(--mono);font-size:13px;font-weight:700;
+  color:var(--pu3);
+}
+.rk-empty{padding:4rem;text-align:center;color:var(--text3);font-family:var(--mono);font-size:13px;line-height:2.2;}
 
 /* ── FOOTER ── */
 footer{
@@ -947,38 +1051,63 @@ function buildRanking(){
     const w=r.wallet.trim();
     map[w]=(map[w]||0)+1;
   });
-  const sorted=Object.entries(map).sort((a,b)=>b[1]-a[1]).map(([wallet,count],i)=>({rank:i+1,wallet,count}));
+  const sorted=Object.entries(map)
+    .sort((a,b)=>b[1]-a[1])
+    .map(([wallet,count],i)=>({rank:i+1,wallet,count}));
+
   if(sorted.length===0){
-    document.getElementById('rankingBody').innerHTML=`<div class="rk-empty">🔍 데이터가 없습니다.<br>구글시트를 연결하고 SYNC를 눌러주세요.</div>`;
+    document.getElementById('rankingBody').innerHTML=
+      `<div class="rk-empty">🔍 데이터가 없습니다.<br>구글시트를 연결하고 SYNC를 눌러주세요.</div>`;
     return;
   }
+
   const sh=w=>w.length>20?w.slice(0,10)+'...'+w.slice(-6):w;
-  const top3=sorted.slice(0,3);
+  const top=sorted.slice(0,3);
   const rest=sorted.slice(3);
-  const numCls=['rk-num-1','rk-num-2','rk-num-3'];
-  const glowCls=['rk-glow-1','rk-glow-2','rk-glow-3'];
-  const winCls=['rk-wins-1','rk-wins-2','rk-wins-3'];
-  const lblCls=['rk-label-1','rk-label-2','rk-label-3'];
-  const crowns=['👑','🥈','🥉'];
-  const labels=['CHAMPION','RUNNER-UP','3RD PLACE'];
 
-  const top3HTML=`<div class="rk-top3">${top3.map((p,i)=>`
-    <div class="rk-top3-card ${glowCls[i]}">
-      <div class="rk-label ${lblCls[i]}">${labels[i]}</div>
-      <span class="rk-crown">${crowns[i]}</span>
-      <div class="rk-num ${numCls[i]}">${p.rank}</div>
-      <div class="rk-addr">${sh(p.wallet)}</div>
-      <span class="rk-wins ${winCls[i]}">🎯 ${p.count}회 당첨</span>
-    </div>`).join('')}</div>`;
+  /* 포디엄 순서: 2등 왼쪽, 1등 가운데, 3등 오른쪽 */
+  const podOrder=[
+    top[1]||null,  /* 왼쪽: 2등 */
+    top[0]||null,  /* 가운데: 1등 */
+    top[2]||null   /* 오른쪽: 3등 */
+  ];
+  const podCls=['rk-pod-2','rk-pod-1','rk-pod-3'];
+  const crowns=['🥈','👑','🥉'];
+  const winCls=['rk-pod-wins','rk-pod-wins','rk-pod-wins'];
+  const badges=['RUNNER-UP','CHAMPION','3RD PLACE'];
+  const steps=['2ND','1ST','3RD'];
 
-  const restHTML=rest.length>0?`<div class="rk-list">${rest.map(p=>`
+  const podHTML=`<div class="rk-podium">
+    ${podOrder.map((p,i)=> p ? `
+    <div class="rk-pod ${podCls[i]}">
+      <div class="rk-pod-box">
+        <div class="rk-pod-crown">${crowns[i]}</div>
+        <div class="rk-pod-num">${p.rank}</div>
+        <div class="rk-pod-addr">${sh(p.wallet)}</div>
+        <div class="rk-pod-wins">🎯 ${p.count}회 당첨</div>
+        <div class="rk-pod-badge">${badges[i]}</div>
+      </div>
+      <div class="rk-step">${steps[i]}</div>
+    </div>` : `<div class="rk-pod ${podCls[i]}"></div>`
+    ).join('')}
+  </div>`;
+
+  const restHTML=rest.length>0?`
+  <div class="rk-list-wrap">
+    <div class="rk-list-head">
+      <div style="text-align:center">순위</div>
+      <div>지갑주소</div>
+      <div style="text-align:right">당첨 횟수</div>
+    </div>
+    ${rest.map(p=>`
     <div class="rk-item">
       <div class="rk-item-num">${p.rank}</div>
       <div class="rk-item-addr">${sh(p.wallet)}</div>
       <div class="rk-item-wins">🎯 ${p.count}회</div>
-    </div>`).join('')}</div>`:'';
+    </div>`).join('')}
+  </div>`:'';
 
-  document.getElementById('rankingBody').innerHTML=top3HTML+restHTML;
+  document.getElementById('rankingBody').innerHTML=podHTML+restHTML;
 }
 
 function dlHTML(){
