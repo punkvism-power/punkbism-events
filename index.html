@@ -907,7 +907,23 @@ function proc(){
     if(!m[r.eventName])m[r.eventName]={eventName:r.eventName,date:r.date,deadline:r.deadline,category:r.category,prize:r.prize,prizeDetail:r.prizeDetail,payDate:r.payDate,winners:[]};
     m[r.eventName].winners.push({name:r.winner,wallet:r.wallet,airdrop:r.airdrop,prize:r.prize});
   });
-  grp=Object.values(m);stats();render();
+  grp=Object.values(m);
+  /* 게시날짜 내림차순 정렬 (최신이 맨 위) */
+  grp.sort((a,b)=>{
+    const parseDate = s => {
+      if(!s) return 0;
+      /* "26년 4월 30일" → Date */
+      let d = s.trim();
+      d = d.replace(/(\d+)년\s*(\d+)월\s*(\d+)일/, (_,y,m,day)=>{
+        const year = parseInt(y)<100 ? 2000+parseInt(y) : parseInt(y);
+        return year+'-'+String(m).padStart(2,'0')+'-'+String(day).padStart(2,'0');
+      });
+      const t = new Date(d);
+      return isNaN(t.getTime()) ? 0 : t.getTime();
+    };
+    return parseDate(b.date) - parseDate(a.date);
+  });
+  stats();render();
 }
 
 function vis(){
