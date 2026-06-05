@@ -161,7 +161,7 @@ header{
 
 /* ── STATS ── */
 .stats{
-  display:grid;grid-template-columns:repeat(4,1fr);
+  display:grid;grid-template-columns:repeat(5,1fr);
   background:var(--bg3);
   border-bottom:1px solid rgba(124,58,237,.15);
 }
@@ -656,14 +656,19 @@ footer{
     <div class="shint">누적 이벤트</div>
   </div>
   <div class="stat">
-    <div class="slbl">// AIRDROP DONE</div>
+    <div class="slbl">// EVENTS COMPLETED</div>
     <div class="snum" id="sDone" style="color:var(--done)">0</div>
-    <div class="shint">에어드랍 완료</div>
+    <div class="shint">지급 완료된 이벤트</div>
   </div>
   <div class="stat">
-    <div class="slbl">// PENDING</div>
+    <div class="slbl">// ACTIVE EVENTS</div>
+    <div class="snum" id="sLive" style="color:#4fc3f7">0</div>
+    <div class="shint">진행 중인 이벤트</div>
+  </div>
+  <div class="stat">
+    <div class="slbl">// DROP PENDING</div>
     <div class="snum" id="sPend" style="color:var(--pend)">0</div>
-    <div class="shint">지급 대기 중</div>
+    <div class="shint">지급 대기 이벤트</div>
   </div>
   <div class="stat">
     <div class="slbl">// TOTAL WINNERS</div>
@@ -893,12 +898,39 @@ function parseCSV(csv){
   }).filter(r=>r.eventName);
 }
 
+function parseKrDate(s){
+  if(!s||s.trim()==='') return null;
+  let d=s.trim();
+  // "26년 4월 20일" or "2026년 4월 20일"
+  d=d.replace(/(\d+)년\s*(\d+)월\s*(\d+)일(\s*(\d+):(\d+))?/,(_,y,mo,day,_t,hh,mm)=>{
+    const year=parseInt(y)<100?2000+parseInt(y):parseInt(y);
+    const h=hh||'23',m=mm||'59';
+    return year+'-'+String(mo).padStart(2,'0')+'-'+String(day).padStart(2,'0')+'T'+String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':00';
+  });
+  // "2026.04.20" or "26.04.20"
+  d=d.replace(/^(\d+)\.(\d+)\.(\d+)$/,(_,y,mo,day)=>{
+    const year=parseInt(y)<100?2000+parseInt(y):parseInt(y);
+    return year+'-'+String(mo).padStart(2,'0')+'-'+String(day).padStart(2,'0')+'T23:59:00';
+  });
+  const t=new Date(d);
+  return isNaN(t.getTime())?null:t;
+}
+
 function stats(){
-  const v=vis();
-  document.getElementById('sTotal').textContent=v.length;
-  document.getElementById('sDone').textContent=v.filter(e=>e.winners.every(w=>w.airdrop==='완료')).length;
-  document.getElementById('sPend').textContent=v.filter(e=>e.winners.some(w=>w.airdrop!=='완료')).length;
-  document.getElementById('sWin').textContent=v.reduce((s,e)=>s+e.winners.length,0);
+  // stats는 전체 grp 기준 (필터 무관하게 전체 카운트)
+  const all=grp;
+  const now=new Date();
+  document.getElementById('sTotal').textContent=all.length;
+  // 지급 완료된 이벤트: 모든 당첨자가 완료
+  document.getElementById('sDone').textContent=all.filter(e=>e.winners.length>0&&e.winners.every(w=>w.airdrop==='완료')).length;
+  // 진행 중인 이벤트: 마감날짜가 있고 현재 시각 이후인 이벤트 (마감날짜 없으면 라이브로 간주)
+  document.getElementById('sLive').textContent=all.filter(e=>{
+    const dl=parseKrDate(e.deadline);
+    return dl===null ? true : dl>=now;
+  }).length;
+  // 지급 대기 이벤트: 당첨자 중 대기가 하나라도 있는 이벤트
+  document.getElementById('sPend').textContent=all.filter(e=>e.winners.some(w=>w.airdrop!=='완료')).length;
+  document.getElementById('sWin').textContent=all.reduce((s,e)=>s+e.winners.length,0);
 }
 
 function proc(){
